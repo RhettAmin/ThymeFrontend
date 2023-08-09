@@ -2,14 +2,15 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 
 const LandingPage = () => {
     return (
-      <View style={styles.container}>
-        <Text>Thyme to Dine</Text>
-        <Image source={require('./assets/stew.gif')} />
-      </View>
+        <View style={styles.container}>
+          <Text>Recipes</Text>
+          <Text>Thyme to Dine</Text>
+          <Text>About</Text>
+        </View>
     );
 }
 
-export default LandingPage
+
 
 const styles = StyleSheet.create({
     container: {
@@ -19,3 +20,5 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
   });
+
+export default LandingPage;

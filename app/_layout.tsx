@@ -1,0 +1,21 @@
+import { Slot } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Header from 'components/header/'
+import Footer from 'components/footer'
+import { NativeWindStyleSheet } from "nativewind";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
+
+import "./main.css";
+
+export default function () {
+  return (
+    <SafeAreaProvider>
+        <Header />
+        <Slot />
+        <Footer />
+    </SafeAreaProvider>
+  );
+}
