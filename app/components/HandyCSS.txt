@@ -1,0 +1,2 @@
+Different coloured backgrounds to easily see when screen listener triggers
+sm:bg-blue-200 md:bg-green-200 lg:bg-background

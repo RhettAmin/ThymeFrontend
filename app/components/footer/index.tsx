@@ -4,17 +4,17 @@ const LINKS_DATA = [
     {
         name: 'RECIPES',
         style: 'flex-1 px-2 text-sm justify-end',
-        text_style: 'text-sm text-primary font-ultra'
+        text_style: 'text-sm text-primary '
     },
     {
         name: 'ABOUT',
         style: 'flex flex-1 px-8 justify-end',
-        text_style: 'text-3xl text-primary font-ultra'
+        text_style: 'text-3xl text-primary '
     },
     {
         name: 'CONTACT',
         style: 'flex flex-1 px-2 justify-end',
-        text_style: 'text-sm text-primary font-ultra'
+        text_style: 'text-sm text-primary '
     }
 ];
 
@@ -22,15 +22,15 @@ type ItemProps = {
     title: string,
 }
 const Item = ( {title}: ItemProps ) => (
-    <Text className="text-primary py-1 font-ultra">{title}</Text>
+    <Text className="text-primary py-1 ">{title}</Text>
 );
 
 export default function Footer() {
     return (
-        <View className='flex items-center bg-footer'>
-            <View className='py-2 ml-[-100] items-center flex-row space-x-16'>
+        <View className='flex-initial items-center flex-col bg-footer'>
+            <View className='py-2 items-center flex-row space-x-16'>
                 {/* Logo */}
-                    <Text className="text-2xl text-primary font-ultra">Thyme to Dine</Text>
+                    <Text className="text-lg text-primary ">Thyme to Dine</Text>
                     <Image 
                         className="" 
                         style={{ width: 40, height: 40 }} 
@@ -44,8 +44,8 @@ export default function Footer() {
                     />
             </View>
             <View className="py-1 items-center">
-                <Text className="font-ultra text-primary">SITE BY RHETT</Text>
-                <Text className="font-ultra text-primary">PRIVACY POLICY</Text>
+                <Text className="text-primary">SITE BY RHETT</Text>
+                <Text className="text-primary">PRIVACY POLICY</Text>
             </View>
         </View>
     );

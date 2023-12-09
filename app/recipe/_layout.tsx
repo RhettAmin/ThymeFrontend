@@ -1,6 +1,6 @@
 import { Slot } from "expo-router";
 
-{/** Footer Layout File */}
+{/** Recipes Layout File */}
 export default function () {
   return <Slot />;
 }

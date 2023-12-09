@@ -1,9 +1,11 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import Home from './home'
+import { useRouter } from "expo-router";
+const router = useRouter();
 
-export default function Home() {
-  return (
-    <View className='flex-1 items-center justify-center bg-background'>
-      <Text>Home page</Text>
-    </View>
-  )
+
+export default function Main() {
+    return (
+        <Home />
+    );
 }

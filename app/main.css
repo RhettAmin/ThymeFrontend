@@ -4,8 +4,7 @@
 @tailwind utilities;
 
 @layer base {
-    @font-face {
-        font-family: 'Ultra';
-        src: url('/app/assets/fonts/Ultra-Regular.ttf') format('truetype');
+    html {
+        font-family: Ultra;
     }
 }

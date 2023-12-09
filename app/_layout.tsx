@@ -1,9 +1,10 @@
 import { Slot } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Header from 'components/header/'
+import Header from 'components/header'
 import Footer from 'components/footer'
 import { NativeWindStyleSheet } from "nativewind";
 
+{/** Home Layout File */}
 NativeWindStyleSheet.setOutput({
   default: "native",
 });

@@ -1,0 +1,2 @@
+## start expo in web mode
+npx expo start --web
