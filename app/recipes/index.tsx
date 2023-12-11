@@ -1,42 +1,42 @@
 import { Text, Image, View, FlatList, ImageSourcePropType } from 'react-native';
-import Divider from 'components/divider';
+import Divider from '@/components/divider';
 
 const RECIPES_DATA = [
     {
         name: "Shrimp Pad Thai",
-        image_link: require('assets/pad_thai.jpg')
+        image_link: require('@/assets/pad_thai.jpg')
     },
     {
         name: "Cheesy Gnocchi",
-        image_link: require('assets/Gnocchi.jpg')
+        image_link: require('@/assets/Gnocchi.jpg')
     },
     {
         name: "Pork Katsu and Slaw",
-        image_link: require('assets/Katsu.jpg')
+        image_link: require('@/assets/Katsu.jpg')
     },
     {
         name: "Beef Brisket Ramen",
-        image_link: require('assets/Ramen.jpg')
+        image_link: require('@/assets/Ramen.jpg')
     },
     {
         name: "Banana Bread",
-        image_link: require('assets/banana_bread.jpg')
+        image_link: require('@/assets/banana_bread.jpg')
     },
     {
         name: "Butter Chicken Burger",
-        image_link: require('assets/Burger.jpg')
+        image_link: require('@/assets/Burger.jpg')
     },
     {
         name: "Beef Brisket Ramen",
-        image_link: require('assets/Ramen.jpg')
+        image_link: require('@/assets/Ramen.jpg')
     },
     {
         name: "Butter Chicken Burger",
-        image_link: require('assets/Burger.jpg')
+        image_link: require('@/assets/Burger.jpg')
     } ,
     {
         name: "Butter Chicken Burger",
-        image_link: require('assets/Burger.jpg')
+        image_link: require('@/assets/Burger.jpg')
     }  
 ];
 

@@ -1,5 +1,4 @@
 import { Text, View, Dimensions, FlatList } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
 var {width, height} = Dimensions.get('window');
 
@@ -11,7 +10,7 @@ export default function Recipes() {
                 <View className="flex-1 px-2">
                     <View className="items-center">
                         <Image
-                            source={ require('assets/Ramen.jpg') } 
+                            source={ require('@/assets/Ramen.jpg') } 
                             style={{ width:'100%', height: height*0.25 }}
                         />
                     </View>

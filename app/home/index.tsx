@@ -1,5 +1,5 @@
 import { View, Text, FlatList, StyleSheet, ImageSourcePropType, Dimensions } from 'react-native';
-import Divider from 'components/divider';
+import Divider from '@/components/divider';
 import { Link, useRouter } from "expo-router";
 import { Image } from 'expo-image';
 var {width, height} = Dimensions.get('window');
@@ -8,15 +8,15 @@ const router = useRouter();
 const LATEST_RECIPE_DATA = [
   {
       name: 'Shrimp Pad Thai',
-      image: require('assets/pad_thai.jpg'),
+      image: require('@/assets/pad_thai.jpg'),
   },
   {
       name: 'Spicy Burger',
-      image: require('assets/Burger.jpg'),
+      image: require('@/assets/Burger.jpg'),
   },
   {
       name: 'Beef Brisket Ramen',
-      image: require("assets/Ramen.jpg"),
+      image: require('@/assets/Ramen.jpg'),
   }
 ];
 
@@ -46,7 +46,7 @@ export default function Home() {
         <Link href="/recipe" className="w-[100%]">
           <View className="w-[100%] items-center">
               <Image 
-                source={ require('assets/Katsu.jpg') } 
+                source={ require('@/assets/Katsu.jpg') } 
                 style={{ width: '100%', height: 350 }}
               />
               <Text className="uppercase py-2 font-bold text-primary">Chicken Katsu with Red cabbage Slaw</Text>
