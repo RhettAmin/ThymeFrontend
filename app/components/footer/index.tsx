@@ -27,7 +27,7 @@ const Item = ( {title}: ItemProps ) => (
 
 export default function Footer() {
     return (
-        <View className='flex-initial items-center flex-col bg-footer'>
+        <View className='flex absolute bottom-0 w-[100%] items-center bg-footer'>
             <View className='py-2 items-center flex-row space-x-16'>
                 {/* Logo */}
                     <Text className="text-lg text-primary ">Thyme to Dine</Text>

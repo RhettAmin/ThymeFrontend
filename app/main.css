@@ -6,5 +6,9 @@
 @layer base {
     html {
         font-family: Ultra;
+        height:100%;
+    }
+    body {
+        height: 100%;
     }
 }

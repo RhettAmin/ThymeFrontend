@@ -15,7 +15,7 @@ export default function () {
   return (
     <SafeAreaProvider>
         <Header />
-        <Slot />
+        <div className="flex flex-col"><Slot /></div>
         <Footer />
     </SafeAreaProvider>
   );

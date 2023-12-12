@@ -38,7 +38,7 @@ const LatestRecipeItem = ( {name, image}: LatestRecipeItemProps ) => (
 /* Main  */
 export default function Home() {
   return (
-    <View className='flex-1 items-center pb-5 bg-background '>
+    <View className='items-center pb-5 bg-background'>
 
       {/* Hero Element */}
       <View className="basis-2/3 sm:w-[75%] md:w-[65%] lg:w-[50%] pt-5 items-center">
