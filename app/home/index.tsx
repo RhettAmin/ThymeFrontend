@@ -1,7 +1,9 @@
-import { View, Text, FlatList, StyleSheet, ImageSourcePropType, Dimensions } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ImageSourcePropType, Pressable, Dimensions } from 'react-native';
 import Divider from '@/components/divider';
 import { Link, useRouter } from "expo-router";
+import getRecipeList from '@/API/thymeHTTP';
 import { Image } from 'expo-image';
+
 var {width, height} = Dimensions.get('window');
 const router = useRouter();
 
@@ -21,22 +23,61 @@ const LATEST_RECIPE_DATA = [
 ];
 
 
-type LatestRecipeItemProps = {
-  name: string,
-  image: ImageSourcePropType,
+type RecipeItemProps = {
+  name: String,
+  image_link: ImageSourcePropType,
+  id: String
 }
-const LatestRecipeItem = ( {name, image}: LatestRecipeItemProps ) => (
-  <View className='items-center w-[100%] px-5'>
-    <Image 
-      source={image}
-      style={{width:'100%', height:100}}
-    />
-    <Text className='uppercase text-primary'>{name}</Text>
-  </View>
+
+const routeToRecipe = (id: String) => {
+  router.push({ pathname: "/recipe", params: { id }})
+}
+
+
+const RecipeItem = ( {name, image_link, id}: RecipeItemProps ) => (
+  <View className="mx-2">
+  <Pressable className="items-center w-48 h-40" onPress={ () => routeToRecipe(id) }>
+      <Image 
+          source={image_link}
+          className="w-5/6 h-[90%] shadow-lg"
+      />
+      <Text className="pt-2 text-primary font-bold">{name}</Text>
+  </Pressable>
+</View>
 );
 
 /* Main  */
 export default function Home() {
+
+  let recipes = getRecipeList()
+
+  // Creates a client
+  // const storage = new Storage();
+
+  // console.log(storage)
+
+  // async function generateV4ReadSignedUrl() {
+  //   // These options will allow temporary read access to the file
+  //   const options = {
+  //     version: 'v4',
+  //     action: 'read',
+  //     expires: Date.now() + 5 * 60 * 1000, // 15 minutes
+  //   };
+  
+  //   // Get a v4 signed URL for reading the file
+  //   const [url] = await storage
+  //     .bucket("thyme_image_bucket")
+  //     .file("apple_cake.jpg")
+  //     .getSignedUrl(options);
+  
+  //   console.log('Generated GET signed URL:');
+  //   console.log(url);
+  //   console.log('You can use this URL with any user agent, for example:');
+  //   console.log(`curl '${url}'`);
+  // }
+  
+  //generateV4ReadSignedUrl().catch( error => console.log(error));
+
   return (
     <View className='items-center pb-5 bg-background'>
 
@@ -55,16 +96,17 @@ export default function Home() {
       </View>
 
       {/* Latest Recipes */}
-      <View className="basis-1/3 py-5 items-center ">
+      <View className="pb-10 items-center ">
         <Divider divider_text="Previously Eaten" />
-        <View className='flex items-center'>
+        <View className='items-center'>
           <FlatList
-            data={LATEST_RECIPE_DATA}
-            className="space-x-64"
+            data={recipes}
+            className=""
             renderItem={ ({item}) => 
-              <LatestRecipeItem 
+              <RecipeItem 
                 name={item.name} 
-                image={item.image} 
+                image_link={LATEST_RECIPE_DATA[1].image} 
+                id={item.id}
               /> }
             horizontal={true}
           />
@@ -74,11 +116,3 @@ export default function Home() {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  heroImage: {
-    flex:1,
-    width: width * 0.9,
-    height: height * 0.4
-  }
-})

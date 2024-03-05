@@ -6,7 +6,7 @@ const HEADER_DATA = [
     {
         name: 'RECIPES',
         style: 'flex-1 text-sm justify-end',
-        text_style: 'text-sm text-primary ',
+        text_style: 'text-sm text-primary font-bold',
         navigation: "/recipes"
     },
     {
@@ -18,11 +18,10 @@ const HEADER_DATA = [
     {
         name: 'ABOUT',
         style: 'flex flex-1 justify-end',
-        text_style: 'text-sm text-primary ',
+        text_style: 'text-sm text-primary font-bold',
         navigation: "/about"
     }
 ];
-
 
 
 type ItemProps = {
