@@ -34,7 +34,7 @@ export default function Footer() {
                     <Image 
                         className="" 
                         style={{ width: 40, height: 40 }} 
-                        source={ require('@/assets/Instagram_logo.png') }
+                        source={ require('@/assets/Stew.png') }
                     />
                     <FlatList
                         className="pl-8"

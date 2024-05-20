@@ -1,4 +1,5 @@
-import { Text, View, FlatList, Pressable } from 'react-native';
+import { View, FlatList } from 'react-native'
+import { Link } from 'expo-router'
 import { useRouter } from "expo-router"
 const router = useRouter();
 
@@ -12,7 +13,7 @@ const HEADER_DATA = [
     {
         name: 'THYME TO DINE',
         style: 'flex flex-1 px-10 justify-end',
-        text_style: 'text-3xl text-primary ',
+        text_style: 'text-5xl text-primary font-bold',
         navigation: "/home"
     },
     {
@@ -32,9 +33,7 @@ type ItemProps = {
 }
 const Item = ( {title, style, text_style, navigation}: ItemProps ) => (
     <View className={style}>
-        <Pressable onPress={ () => router.push(navigation) }>
-            <Text className={text_style}> {title} </Text>
-        </Pressable>
+        <Link href={navigation} className={text_style}> {title} </Link>
     </View>
 );
 

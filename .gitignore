@@ -42,3 +42,7 @@ yarn-error.*
 .yarn/releases
 .yarn/sdks
 .yarn/versions
+
+# excluded folder
+app/API/config
+.env

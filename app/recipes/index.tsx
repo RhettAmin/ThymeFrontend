@@ -1,68 +1,114 @@
-import { Text, Image, View, FlatList, ImageSourcePropType, Pressable } from 'react-native';
-import Divider from '@/components/divider';
-import { useRouter } from 'expo-router';
-import getRecipeList from '@/API/thymeHTTP';
+import { View, Text, FlatList, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Recipe } from '@/model/recipe'
+import { Link, useRouter } from "expo-router";
+import { Recipe } from 'app/model/recipe';
+import { Image } from 'expo-image';
+import ThymeAPI from '@/API/thymeAPI';
+import firebaseAPI from 'app/API/firebaseAPI'
+import Divider from '@/components/divider';
+
 
 const router = useRouter();
-
-const RECIPES_DATA = 
-    {
-        name: "Shrimp Pad Thai",
-        image_link: require('@/assets/pad_thai.jpg')
-    }
-
-
-type RecipeItemProps = {
-    name: String,
-    image_link: ImageSourcePropType,
-    id: String
+  
+type ImageListProps = {
+    recipes: Recipe[],
+    hasSetImages: Boolean
 }
-
+  
 const routeToRecipe = (id: String) => {
     router.push({ pathname: "/recipe", params: { id }})
 }
 
-const RecipeItem = ( {name, image_link, id}: RecipeItemProps ) => (
-    <View className="m-4">
-        <Pressable className="items-center w-48 h-40" onPress={ () => routeToRecipe(id) }>
-            <Image 
-                source={image_link}
-                className="w-5/6 h-[90%] shadow-lg"
-            />
-            <Text className="pt-2 text-primary">{name}</Text>
-        </Pressable>
+function convertArrayToButtons(array: string[]) {
+    return <View>
+        <FlatList
+            data={array}
+            className=""
+            renderItem={ ({item}) =>
+                <View className="bg-footer p-1 mx-2">
+                    <Text>{ item }</Text>
+                </View>
+            }
+            horizontal={true}
+        />  
     </View>
-);
-
+}
+  
+function ImageList({ recipes, hasSetImages }: ImageListProps) {
+    if (hasSetImages) {
+        return <FlatList
+        data={recipes}
+        className="w-[50%]"
+        renderItem={ ({item}) =>
+            // Card border
+            <View className="flex p-4 bg-recipeCard my-2">
+                
+                    <View className="flex-row">
+                        <View className="flex-none">
+                            <Pressable className={""} onPress={ () => routeToRecipe(item.recipeId) }>
+                                <Image 
+                                    source={URL.createObjectURL(item.mainImage!!)}
+                                    className=""
+                                    style={{ width: 300, height: 300 }}
+                                /> 
+                            </Pressable>
+                        </View>
+                        <View className="flex-1">
+                            <View className="flex-auto pl-5">
+                                <Text className="text-xl text-primary font-bold">{ item.name }</Text>
+                                <Text className="pt-5 text-lg text-primary font-medium">{ item.description }</Text>
+                            </View>
+                            <View className="flex-auto">
+                                <View className="flex items-center">
+                                    <Pressable className={""} onPress={ () => routeToRecipe(item.recipeId) }>
+                                        <View className="bg-button rounded-lg flex items-center p-4">
+                                            <Text className="text-lg font-semibold">Cook it!</Text>
+                                        </View>
+                                    </Pressable>
+                                </View>
+                            </View>
+                            <View className="pl-3 flex-intial">
+                                { convertArrayToButtons(item.tags) }
+                            </View>
+                        </View>
+                    </View>
+            </View>
+        }
+        />  
+    }
+}
 
 export default function Recipes() {
-    let recipes = getRecipeList()
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const [setImages, hasSetImages] = useState<Boolean>(false);
+
+    const getRecipes = async () => {
+        let finalRecipeList = []
+
+        ThymeAPI.getRecipes().then((recipeList) => {
+            for(const [index, value] of recipeList.entries()) {
+                firebaseAPI.getRecipeImages(value).then((response) => {
+                    finalRecipeList.push(response)
+                    if (finalRecipeList.length == recipeList.length) {
+                        setRecipes([...recipes, ...recipeList])
+                        hasSetImages(true)
+                    }
+                })
+            }
+        })
+    }
+
+
+
+    useEffect(() => {
+        getRecipes()
+    }, [])
 
     return (
-        <View className="flex-grow items-center bg-background">
-            <View className="my-5 items-center">
-                {/** All Recipes title and dividers */}
-                <View>
-                    <Divider divider_text="All Recipes" />
-                </View>
-                <View className="p-2"> 
-                    <FlatList
-                        data={recipes}
-                        className='p-2'
-                        keyExtractor={(index) => index.toString()}
-                        renderItem={ ({item}) => 
-                            <RecipeItem 
-                                name = {item.name} 
-                                image_link = {RECIPES_DATA.image_link} 
-                                id = {item.id}
-                            /> }
-                        numColumns={3}
-                        horizontal={false}
-                    />
-                </View>
-            </View>
+        <View className="flex items-center py-5 bg-background">
+            {/** All Recipes title and dividers */}
+            <Divider divider_text="All Recipes" />
+            <ImageList recipes={recipes} hasSetImages={setImages} />
         </View>
         
     );

@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Thymefrontend",
-    "slug": "Thymefrontend",
+    "name": "Thyme to Dine",
+    "slug": "thymetodine",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/Stew.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/Stew.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./app/assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/Stew.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./app/assets/stew.png",
+      "favicon": "./app/assets/Stew.png",
       "bundler": "metro"
     },
     "experiments": {

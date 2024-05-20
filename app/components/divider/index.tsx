@@ -12,7 +12,7 @@ export default function Divider({divider_text}: DividerProps) {
               style={{ width:130, height:40 }}
               className='scale-x-[-1] mt-4'
             />
-            <Text className="text-2xl p-4 text-primary">{divider_text}</Text>
+            <Text className="text-2xl font-bold p-4 text-primary">{divider_text}</Text>
             <Image 
               source={ require('@/assets/thymeleaf_divider.png') } 
               style={{ width:130, height:40 }}

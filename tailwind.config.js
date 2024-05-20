@@ -10,9 +10,10 @@ module.exports = {
                 'small': '0.1 0.1 0%'
             },
             colors: {
-                background: '#E4DED1',
                 primary: '#485841',
+                background: '#E4DED1',
                 footer: '#A59070',
+                button: '#A9CC99',
                 recipeCard: '#F5E1C5'
             },
             fontFamily: {

@@ -1,6 +1,6 @@
 import { Slot } from "expo-router";
 
-{/** Header Layout File */}
+{/** Hero Layout File */}
 export default function () {
   return <Slot />;
 }
