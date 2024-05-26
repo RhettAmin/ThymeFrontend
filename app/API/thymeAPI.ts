@@ -1,10 +1,7 @@
 import { Recipe, IngredientSection, Ingredient, InstructionSection } from '@/model/recipe'
 import { RecipeDTO } from '@/model/recipeDTO'
 import { Response } from '../model/response';
-import snakecaseKeys from 'snakecase-keys'
-import camelcaseKeys from 'camelcase-keys'
 import ThymeConfig from 'app/API/config/backend'
-import firebaseAPI from 'app/API/firebaseAPI'
 import axios from 'axios';
 
 const thymeAxios = axios.create({
@@ -12,11 +9,7 @@ const thymeAxios = axios.create({
 })
 
 async function getRecipes(id?: String, limit?: number) {
-    return new Promise<Recipe[]>((resolve, reject) => {
-        let recipesDTO: RecipeDTO[] = []
-    
-        // setup interceptor
-    
+    return new Promise<Recipe[]>((resolve, reject) => {    
         thymeAxios.get('/recipes', {
             params: {
                 recipeId: id,
@@ -26,9 +19,7 @@ async function getRecipes(id?: String, limit?: number) {
         .then((response) => {
             // handle success
             let responseObj: Response = response.data
-            recipesDTO = responseObj.recipe_list
-            //console.log(recipesDTO)
-
+            let recipesDTO: RecipeDTO[] = responseObj.recipe_list
             let recipes: Recipe[] = []
 
             for (const [index, value] of recipesDTO.entries()) {
@@ -43,7 +34,7 @@ async function getRecipes(id?: String, limit?: number) {
         .catch(function (error) {
             // handle error
             console.log(error);
-            reject()
+            reject(error)
         });
     })
 }
@@ -55,6 +46,7 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
         recipe.recipeId = recipeDTO.recipe_id
         recipe.name = recipeDTO.name
         recipe.description = recipeDTO.description
+
         // Serving
         recipe.serving.amount = recipeDTO.serving.amount
         recipe.serving.servingSize = recipeDTO.serving.serving_size
@@ -67,6 +59,7 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
         recipe.updatedDate = recipeDTO.updated_date
 
         const ingSections: IngredientSection[] = []
+
         // Ingredient Section
         recipeDTO.ingredient_section.forEach((section) => {
             const iSection = new IngredientSection
@@ -87,9 +80,10 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
         })
         recipe.ingredientSection = ingSections
 
+        // Instruction Section
+
         const instrSection: InstructionSection[] = []
         
-        // Instruction Section
         recipeDTO.instruction_section.forEach((section) => {
             const iSection = new InstructionSection
             

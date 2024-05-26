@@ -1,40 +1,48 @@
-import { View, Text, Pressable } from 'react-native';
+import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
-import firebaseAPI from 'app/API/firebaseAPI'
-
-const router = useRouter();
-
-const routeToRecipe = (id: String) => {
-    router.push({ pathname: "/recipe", params: { id }})
-}
+import firebaseAPI from 'app/API/firebaseAPI';
 
 interface HeroProps {
     recipe: Recipe
 }
-interface ImageItemProps {
-    locationToGrabFrom: Blob | MediaSource
+
+interface HeroDisplayProps {
+    recipe: Recipe | undefined,
+    hasSetImages: Boolean
 }
 
-function ImageItem({locationToGrabFrom} : ImageItemProps) {
-    if (locationToGrabFrom) {
-        return <Image 
-            source={URL.createObjectURL(locationToGrabFrom)}
-            className=""
-            style={{ width: 600, height: 300 }}
-        /> 
+function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
+    if (hasSetImages) {
+        return <Link href={{pathname:"/recipe" , params: {id: recipe?.recipeId} }} className="">
+            <View className="items-center">
+                {
+                    recipe && recipe.mainImage ?
+                    <Image 
+                        source={URL.createObjectURL(recipe?.mainImage!!)}
+                        className=""
+                        style={{ width: 600, height: 300 }}
+                    /> : undefined
+                }
+                <Text className="pt-2 text-lg text-primary font-bold">{ recipe?.name }</Text>
+            </View>
+        </Link>
     }
 }
 
 const Hero = ({recipe}: HeroProps) => {
     const [heroRecipe, setHeroRecipe] = useState<Recipe>();
+    const [setImages, hasSetImages] = useState<Boolean>(false);
 
     const getRecipeImages = async () => {
-        firebaseAPI.getRecipeImages(recipe).then((response) => {
-            setHeroRecipe({...heroRecipe, ...response})
-        })
+        if (!setImages) {
+            firebaseAPI.getRecipeImages(recipe).then((response) => {
+                setHeroRecipe({...heroRecipe, ...response})
+                hasSetImages(true)
+            })
+        }
     }
 
     useEffect(() => {
@@ -43,14 +51,11 @@ const Hero = ({recipe}: HeroProps) => {
 
     return (
         <View className="pb-5 items-center">
-            <Link href={{pathname:"/recipe" , params: {id: recipe.recipeId} }} className="">
-                <View className="items-center">
-                    <ImageItem 
-                        locationToGrabFrom={heroRecipe?.mainImage!!}
-                    />
-                    <Text className="pt-2 text-lg text-primary font-bold">{ heroRecipe ? heroRecipe!.name : 'loading name' }</Text>
-                </View>
-            </Link>
+            {
+                heroRecipe ? 
+                    <HeroDisplay recipe={ heroRecipe } hasSetImages = { setImages }/> :
+                    <Text>Loading...</Text>
+            }
         </View>
     )
 }

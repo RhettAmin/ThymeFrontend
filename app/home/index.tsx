@@ -1,8 +1,8 @@
 import { View } from 'react-native';
 import { useState, useEffect } from 'react';
+import { Recipe } from 'app/model/recipe';
 import Divider from '@/components/divider';
 import ThymeAPI from '@/API/thymeAPI';
-import { Recipe } from 'app/model/recipe';
 import Hero from '@/components/hero/hero';
 import PrevEaten from '@/components/prevEaten/prevEaten';
 
@@ -34,7 +34,7 @@ export default function Home() {
 
         {/* Latest Recipes */}
         <View className="items-center">
-          <PrevEaten recipesProp={ recipes.slice(1, recipes.length) }/>
+           <PrevEaten recipesProp={ recipes.slice(1, recipes.length) }/> 
         </View> 
       </View>
     )

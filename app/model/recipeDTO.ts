@@ -50,54 +50,6 @@ class NutritionFactsDTO {
     iron: number = 0;
     potassium: number = 0;
     calcium: number = 0;
-
-    getValue(value: string): number {
-        switch(value as any) {
-            case "Calories": {
-                return this.calories;
-            }
-            case "Fat": {
-                return this.fat;
-            }
-            case "Saturated": {
-                return this.saturated_fat;
-            }
-            case "Trans": {
-                return this.trans_fat;
-            }
-            case "Carbohydrate": {
-                return this.carbohydrate;
-            }
-            case "Fibre": {
-                return this.fibre;
-            }
-            case "Sugars": {
-                return this.sugars;
-            }
-            case "Protein": {
-                return this.protein;
-            }
-            case "Cholesterol": {
-                return this.cholesterol;
-            }
-            case "Sodium": {
-                return this.sodium;
-            }
-            case "Vitamin D": {
-                return this.vitamin_d;
-            }
-            case "Iron": {
-                return this.iron;
-            }
-            case "Potassium": {
-                return this.potassium;
-            }
-            case "Calcium": {
-                return this.calcium;
-            }
-        }
-        return -1
-    }
 }
 
 export { RecipeDTO, ServingDTO, IngredientSectionDTO, IngredientDTO, InstructionSectionDTO, NutritionFactsDTO }

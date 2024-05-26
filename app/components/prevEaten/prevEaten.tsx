@@ -1,6 +1,6 @@
 import { View, Text, FlatList, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import firebaseAPI from 'app/API/firebaseAPI'
@@ -23,7 +23,6 @@ const routeToRecipe = (id: String) => {
 
 function ImageList({ recipes, hasSetImages }: ImageListProps){
   if (hasSetImages) {
-    console.log(recipes)
     return <FlatList
       data={recipes.slice(0,3)}
       className=""
@@ -48,33 +47,36 @@ const PrevEaten = ({recipesProp}: PrevProps) => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [setImages, hasSetImages] = useState<Boolean>(false);
 
-    const getRecipeImages = async () => {
+    const getRecipeImages = async (prop: Recipe[]) => {
         let finalRecipeList = []
-        if (recipesProp) {
-          if (!setImages) {
-            for (const[index, value] of recipesProp.entries()) {
-                firebaseAPI.getRecipeImages(value).then((response) => {
-                    finalRecipeList.push(response)
-                    if (index == recipesProp.length-1) {
-                      setRecipes([...recipes, ...finalRecipeList])
-                      hasSetImages(true)
-                    }
-                })
-            } 
+        if (recipes && !setImages) {
+          for (const[index, value] of prop.entries()) {
+            //console.log(value)
+            firebaseAPI.getRecipeImages(value).then((response) => {
+                finalRecipeList.push(response)
+                if (finalRecipeList.length == prop.length) {
+                  setRecipes([...recipes, ...finalRecipeList])
+                  hasSetImages(true)
+                }
+            })
           }
         }
-    }
+      }
+    
 
     useEffect(() => {
-        setRecipes([...recipes, ...recipesProp])
-        getRecipeImages()
+      getRecipeImages(recipesProp)
     }, [recipesProp])
 
     return (
         <View className="items-center">
           <Divider divider_text="Previously Eaten" />
           <View className="items-center">
-            <ImageList recipes={recipes} hasSetImages={setImages} />
+            {
+                recipes.length != 0 ? 
+                  <ImageList recipes={recipes} hasSetImages={setImages} /> :
+                  <Text>Loading...</Text>
+                }
           </View>
         </View> 
     )
