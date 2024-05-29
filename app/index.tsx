@@ -1,8 +1,4 @@
-import { View } from 'react-native';
-import Home from './home'
-import { useRouter } from "expo-router";
-const router = useRouter();
-
+import Home from './pages/home'
 
 export default function Main() {
     return (

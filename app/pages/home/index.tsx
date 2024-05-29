@@ -22,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-      <View className='items-center pt-5 pb-5 bg-[#e7f3dc]'>
+      <View className='items-center pt-5 pb-5 bg-background'>
 
         <Divider divider_text="Hot and Fresh" />
         

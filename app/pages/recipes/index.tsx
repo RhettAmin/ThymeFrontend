@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Link, useRouter } from "expo-router";
 import { Recipe } from 'app/model/recipe';
@@ -17,10 +17,6 @@ const tagColour = [
 type ImageListProps = {
     recipes: Recipe[],
     hasSetImages: Boolean
-}
-  
-const routeToRecipe = (id: String) => {
-    router.push({ pathname: "/recipe", params: { id }})
 }
 
 function getTagColour(num: number): string {
@@ -60,13 +56,13 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
             <View className="flex p-4 bg-recipeCard my-2">
                     <View className="flex-row">
                         <View className="flex-none">
-                            <Pressable className={""} onPress={ () => routeToRecipe(item.recipeId) }>
+                            <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
                                 <Image 
                                     source={URL.createObjectURL(item.mainImage!!)}
                                     className=""
                                     style={{ width: 300, height: 300 }}
                                 /> 
-                            </Pressable>
+                            </Link>
                         </View>
                         <View className="flex-1">
                             <View className="flex-auto pl-5">
@@ -78,11 +74,11 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
                             </View>
                             <View className="flex-auto">
                                 <View className="flex items-center">
-                                    <Pressable className={""} onPress={ () => routeToRecipe(item.recipeId) }>
+                                    <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
                                         <View className="bg-header rounded-lg border flex items-center py-2 px-4">
                                             <Text className="text-lg font-semibold">Cook it!</Text>
                                         </View>
-                                    </Pressable>
+                                    </Link>
                                 </View>
                             </View>
                             <View className="pl-3 flex-intial">
@@ -123,7 +119,7 @@ export default function Recipes() {
     }, [])
 
     return (
-        <View className="flex items-center py-5 bg-[#e7f3dc]">
+        <View className="flex items-center py-5 bg-background">
             {/** All Recipes title and dividers */}
             <Divider divider_text="All Recipes" />
             <ImageList recipes={recipes} hasSetImages={setImages} />
