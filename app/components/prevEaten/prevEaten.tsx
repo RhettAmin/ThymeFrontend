@@ -69,7 +69,7 @@ const PrevEaten = ({recipesProp}: PrevProps) => {
     }, [recipesProp])
 
     return (
-        <View className="items-center">
+        <View className="items-center mb-6">
           <Divider divider_text="Previously Eaten" />
           <View className="items-center">
             {

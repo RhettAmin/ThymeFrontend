@@ -39,7 +39,7 @@ const Item = ( {title, style, text_style, navigation}: ItemProps ) => (
 
 export default function Header() {
     return (
-        <View className="flex pt-5 items-center bg-background">
+        <View className="flex py-5 items-center bg-background">
             <FlatList
                 data={HEADER_DATA}
                 renderItem={ ({item}) => 

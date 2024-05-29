@@ -1,10 +1,13 @@
-import { Recipe, IngredientSection, Ingredient, InstructionSection, NutritionFacts } from 'app/model/recipe';
+import { Serving, IngredientSection, Ingredient } from 'app/model/recipe';
 import { Text, View, FlatList, Switch } from 'react-native';
 import { useState, useEffect } from 'react';
 import conversionUtil from './convertUnits';
 
+
+
 interface IngredientBoxProps {
-    ingredientSection: IngredientSection[]
+    ingredientSection: IngredientSection[],
+    serving: Serving
 }
 
 class ConvertedMeasurement {
@@ -12,15 +15,22 @@ class ConvertedMeasurement {
     quantity: number = 0
 }
 
+class switchColours {
+    static trackColour1 = '#e7f3dc'
+    static trackColour2 = '#e7f3dc'
+    static thumbColour1 = '#1a1a1a'
+    static thumbColour2 = '#d17e7b'
+}
 const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
     const [ingredientSectionsMetric, setIngredientSectionsMetric] = useState<IngredientSection[]>([])
     const [ingredientSectionsImperial, setIngredientSectionsImperial] = useState<IngredientSection[]>([])
+    const [serving, setServing] = useState<Serving>()
     const keyExtractor = (item: IngredientSection, idx: any) => `${Object.keys(item)}-${idx}`
     const innerKeyExtractor = (item: Ingredient, idx: any) => `${Object.keys(item)}-${idx}`
     const [isMetric, setIsMetric] = useState(true);
     const toggleSwitch = () => setIsMetric(previousState => !previousState);
 
-
+    
     async function convertMetricToImperial(ingredientSectionToChange: IngredientSection[]) {
         return await new Promise<IngredientSection[]>((resolve, reject)=> {
 
@@ -45,6 +55,23 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
         })
     }
 
+    function MeasurementSwitch() {
+        return <View className="flex items-center justify-center pb-4">
+            <View className="relative flex flex-row space-x-2">
+                <Text className="text-primary font-semibold">Imperial</Text>
+                <Switch
+                    trackColor={{ false: switchColours.trackColour1, true: switchColours.trackColour2 }}
+                    thumbColor={ isMetric ? switchColours.thumbColour1 : switchColours.thumbColour2 }
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={ toggleSwitch }
+                    value={ isMetric }
+                />
+                <Text className="text-primary font-semibold">Metric</Text>
+            </View>
+            <Text>{ !isMetric ? 'NOTE: conversions are approximate' : '' }</Text>
+        </View>
+    }
+
     function setTables() {
         convertMetricToImperial(ingredientSection).then((response) => {
             setIngredientSectionsMetric(ingredientSection)
@@ -54,25 +81,13 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
 
     useEffect(() => {
         setTables()
+        setServing(serving)
     },[ingredientSection])
 
     return (
         <View>
-            <View className="flex items-center justify-center pb-4">
-                <View className="relative flex flex-row space-x-2">
-                    <Text>Imperial</Text>
-                    <Switch
-                        trackColor={{false: '#767577', true: '#81b0ff'}}
-                        thumbColor={isMetric ? '#f5dd4b' : '#f4f3f4'}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={toggleSwitch}
-                        value={isMetric}
-                    />
-                    <Text>Metric</Text>
-                </View>
-                <Text>{
-                    !isMetric ? 'NOTE: conversions are approximate' : ''
-                }</Text>
+            <View>
+                <MeasurementSwitch/>
             </View>
             <FlatList
                 data={ isMetric ? ingredientSectionsMetric : ingredientSectionsImperial }
@@ -86,11 +101,11 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
                                 keyExtractor={ innerKeyExtractor }
                                 renderItem={({ item }) => {
                                     return (
-                                        <li className="pl-3"> 
+                                        <li className="pl-3 text-primary"> 
                                             { ` \u2022
-                                                ${ item.name }  
                                                 ${ item.quantity.toString() }
                                                 ${ item.measurement }
+                                                ${ item.name }  
                                             `}
                                         </li>
                                     );

@@ -70,8 +70,8 @@ export default function RecipePage() {
                     
                     {/* Ingredients */}
                     <View className="flex">
-                        <Text className="uppercase text-lg font-bold text-primary pt-5 pb-4">Ingredients</Text>
-                        <IngredientBox ingredientSection={ recipe.ingredientSection }/>
+                        <Text className="uppercase text-xl font-bold text-primary pt-5 pb-4">Ingredients</Text>
+                        <IngredientBox ingredientSection={ recipe.ingredientSection } serving={ recipe.serving } />
                     </View>
                 </View>
 
@@ -91,7 +91,7 @@ export default function RecipePage() {
                             </View>
                             {/* Instructions */}
                             <View>
-                                <Text className="uppercase text-lg font-bold text-primary py-5">Instructions</Text>
+                                <Text className="uppercase text-xl font-bold text-primary py-5">Instructions</Text>
                                 <InstructionDisplay instructionSection={ recipe.instructionSection } />
                             </View>
                         </View>

@@ -13,7 +13,7 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
     const innerKeyExtractor = (item: string, idx: any) => `${Object.keys(item)}-${idx}`
 
     useEffect(() => {
-        setISections([...iSections, ...instructionSection])
+        setISections(instructionSection)
         console.log(iSections)
     },[instructionSection])
 
@@ -25,26 +25,31 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
             renderItem={({ item }) => {
                 return (
                     <View className="pb-4">
-                        <Text className="text-primary font-bold">{ item.sectionName }</Text>
-                        <View>
-                            {
-                                item.image ?
-                                    <Image source={ URL.createObjectURL(item.image)} style={{ width: 250, height: 250 }}/>
-                                    : undefined
-                            }
+                        <Text className="text-primary text-lg font-bold pb-2">{ item.sectionName }</Text>
+                        <View className="flex-row overflow-auto">
+                            <View className="flex-initial">
+                                {
+                                    item.image ?
+                                        <Image source={ URL.createObjectURL(item.image)} style={{ width: 200, height: 200 }}/>
+                                        : undefined
+                                }
+                            </View>
+                            <View className="flex-1">
+                                <FlatList
+                                    className=""
+                                    data={ item.steps }
+                                    keyExtractor={ innerKeyExtractor }
+                                    renderItem={({item, index}) => {
+                                        return (
+                                            <View className="flex flex-row pl-2">
+                                                <Text className="text-primary font-semibold">{ index + 1 }</Text>
+                                                <Text className="pl-3 text-medium text-primary">{ item }</Text>
+                                            </View>
+                                        );
+                                    }}
+                                />
+                            </View>
                         </View>
-                        <FlatList
-                            data={ item.steps }
-                            keyExtractor={ innerKeyExtractor }
-                            renderItem={({item, index}) => {
-                                return (
-                                    <View className="flex flex-row pl-2">
-                                        <Text>{ index + 1 }</Text>
-                                        <Text className="pl-3 text-medium">{ item }</Text>
-                                    </View>
-                                );
-                            }}
-                        />
                     </View>
                 );
             }}

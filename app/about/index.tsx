@@ -4,7 +4,7 @@ var {width, height} = Dimensions.get('window');
 
 export default function About() {
     return (
-        <View className="flex-grow items-center bg-background">
+        <View className="flex-1 items-center bg-background">
             <View id="recipeCard" className="flex-row w-[50%] my-10 p-5 items-top bg-recipeCard">
                 <View className="">
                     <Image
