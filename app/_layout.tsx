@@ -14,11 +14,19 @@ import "./main.css";
 
 export default function () {
   return (
-    <SafeAreaProvider>
-        <View className="flex flex-col h-screen">
-          <Header />
-          <View className="flex-grow"><Slot /></View>
-          <Footer />
+    <SafeAreaProvider className="bg-background">
+        <View className="flex-col h-screen w-screen">
+          <View className="">
+            <Header />
+          </View>
+          
+          <View className="flex-grow">
+            <Slot />
+          </View>
+
+          <View className="">
+            <Footer />
+          </View>
         </View>
     </SafeAreaProvider>
   );

@@ -14,11 +14,9 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
 
     useEffect(() => {
         setISections(instructionSection)
-        console.log(iSections)
     },[instructionSection])
 
     return (
-        console.log(iSections),
         <FlatList
             data={ iSections }
             keyExtractor={ keyExtractor }

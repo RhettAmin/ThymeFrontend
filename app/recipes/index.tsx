@@ -1,13 +1,13 @@
 import { View, Text, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import ThymeAPI from '@/API/thymeAPI';
 import firebaseAPI from 'app/API/firebaseAPI'
 import Divider from '@/components/divider';
+import LoadingScreen from '@/components/loadingScreen/loadingScreen';
 
-const router = useRouter();
 const tagColour = [
     '#B2E1E4',
     '#CDB2E4',
@@ -26,7 +26,6 @@ function getTagColour(num: number): string {
     } else if (num % 2 == 0) {
         returnVal = tagColour[1]
     } 
-    console.log(returnVal)
     return returnVal
 }
 
@@ -50,7 +49,7 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
     if (hasSetImages) {
         return <FlatList
         data={recipes}
-        className="w-[50%]"
+        className="w-3/5"
         renderItem={ ({item}) =>
             // Card border
             <View className="flex p-4 bg-recipeCard my-2">
@@ -98,7 +97,6 @@ export default function Recipes() {
 
     const getRecipes = async () => {
         let finalRecipeList = []
-        console.log(getTagColour(1))
         ThymeAPI.getRecipes().then((recipeList) => {
             for(const [index, value] of recipeList.entries()) {
                 firebaseAPI.getRecipeImages(value).then((response) => {
@@ -112,17 +110,20 @@ export default function Recipes() {
         })
     }
 
-
-
     useEffect(() => {
         getRecipes()
     }, [])
 
     return (
-        <View className="flex items-center py-5 bg-background">
+        <View className="flex-1 items-center py-5 bg-background">
             {/** All Recipes title and dividers */}
             <Divider divider_text="All Recipes" />
-            <ImageList recipes={recipes} hasSetImages={setImages} />
+            {
+                recipes.length > 0 ? 
+                <ImageList recipes={recipes} hasSetImages={setImages} /> :
+                <LoadingScreen />
+            }
+            
         </View>
         
     );

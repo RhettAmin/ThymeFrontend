@@ -5,6 +5,7 @@ class Recipe {
     serving: Serving = new Serving;
     tags: string[] = [];
     timeToPlate: number = 0;
+    heroImage: Blob | undefined = undefined;
     mainImage: Blob | undefined = undefined;
     images: string = '';
     createdDate: string = '';

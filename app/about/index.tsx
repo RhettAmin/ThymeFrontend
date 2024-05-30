@@ -1,6 +1,5 @@
-import { Text, View, Image, Dimensions } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { Linking } from 'react-native';
-var {width, height} = Dimensions.get('window');
 
 export default function About() {
     return (
@@ -9,7 +8,7 @@ export default function About() {
                 <View className="">
                     <Image
                         source={ require('@/assets/Me.jpg') } 
-                        style={{ width:width*0.15, height:height*0.25}}
+                        style={{ width:250, height:250}}
                     />
                 </View>
                 <View className="flex-1 pl-5">
@@ -32,5 +31,6 @@ export default function About() {
                 </View>
             </View>
         </View>
+
     );
 }

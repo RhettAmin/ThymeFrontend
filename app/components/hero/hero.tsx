@@ -4,6 +4,7 @@ import { Link } from "expo-router";
 import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import firebaseAPI from 'app/API/firebaseAPI';
+import LoadingScreen from '../loadingScreen/loadingScreen';
 
 interface HeroProps {
     recipe: Recipe
@@ -19,11 +20,11 @@ function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
         return <Link href={{pathname:"/recipe" , params: {id: recipe?.recipeId} }} className="">
             <View className="items-center">
                 {
-                    recipe && recipe.mainImage ?
+                    recipe && recipe.heroImage ?
                     <Image 
-                        source={URL.createObjectURL(recipe?.mainImage!!)}
+                        source={URL.createObjectURL(recipe.heroImage)}
                         className=""
-                        style={{ width: 600, height: 300 }}
+                        style={{ width: 640, height: 320 }}
                     /> : undefined
                 }
                 <Text className="pt-2 text-lg text-primary font-bold">{ recipe?.name }</Text>
@@ -54,7 +55,7 @@ const Hero = ({recipe}: HeroProps) => {
             {
                 heroRecipe ? 
                     <HeroDisplay recipe={ heroRecipe } hasSetImages = { setImages }/> :
-                    <Text>Loading...</Text>
+                    <LoadingScreen/>
             }
         </View>
     )

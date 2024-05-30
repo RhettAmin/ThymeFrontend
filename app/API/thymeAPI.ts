@@ -32,8 +32,6 @@ async function getRecipes(id?: String, limit?: number) {
             }
         })
         .catch(function (error) {
-            // handle error
-            console.log(error);
             reject(error)
         });
     })

@@ -1,28 +1,6 @@
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Text } from 'react-native'
 import { Link } from 'expo-router'
-import { useRouter } from "expo-router"
-const router = useRouter();
 
-const HEADER_DATA = [
-    {
-        name: 'RECIPES',
-        style: 'flex-1 text-sm justify-end',
-        text_style: 'text-sm text-primary font-bold',
-        navigation: "/recipes"
-    },
-    {
-        name: 'THYME TO DINE',
-        style: 'flex flex-1 px-10 justify-end',
-        text_style: 'text-5xl text-primary font-bold',
-        navigation: "/home"
-    },
-    {
-        name: 'ABOUT',
-        style: 'flex flex-1 justify-end',
-        text_style: 'text-sm text-primary font-bold',
-        navigation: "/about"
-    }
-];
 
 
 type ItemProps = {
@@ -39,19 +17,26 @@ const Item = ( {title, style, text_style, navigation}: ItemProps ) => (
 
 export default function Header() {
     return (
-        <View className="flex py-5 items-center bg-background">
-            <FlatList
-                data={HEADER_DATA}
-                renderItem={ ({item}) => 
-                    <Item 
-                        title={item.name} 
-                        style={item.style} 
-                        text_style={item.text_style} 
-                        navigation={item.navigation}
-                    /> 
-                }
-                horizontal={true}
-                />
+        <View className="py-5 items-center bg-background flex-row justify-center">
+
+            <View className='pt-7'>
+                <Link href="/recipes" className='text-sm text-primary font-bold'> 
+                    <Text> RECIPES </Text>
+                </Link>
+            </View>
+
+            <View>
+                <Link href="/home" className='text-5xl text-primary font-bold'> 
+                    <Text> THYME TO DINE </Text> 
+                </Link>
+            </View>
+
+            <View className='pt-7'>
+                <Link href="/about" className='text-sm text-primary font-bold'>
+                    <Text> ABOUT </Text>
+                </Link>
+            </View>
+
         </View>
     );
 }

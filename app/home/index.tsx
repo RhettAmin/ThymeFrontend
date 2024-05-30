@@ -5,6 +5,7 @@ import Divider from '@/components/divider';
 import ThymeAPI from '@/API/thymeAPI';
 import Hero from '@/components/hero/hero';
 import PrevEaten from '@/components/prevEaten/prevEaten';
+import LoadingScreen from '@/components/loadingScreen/loadingScreen';
 
 /* Main  */
 export default function Home() {
@@ -22,20 +23,22 @@ export default function Home() {
   }, []);
 
   return (
-      <View className='items-center pt-5 pb-5 bg-background'>
+      <View className='flex-1 items-center py-5 bg-background'>
 
         <Divider divider_text="Hot and Fresh" />
-        
-        {/* Hero Element */}
-        
-       <View className="items-center">
-          <Hero recipe={ recipes[0] }/>
-        </View> 
 
-        {/* Latest Recipes */}
-        <View className="items-center">
-           <PrevEaten recipesProp={ recipes.slice(1, recipes.length) }/> 
+        <View>
+          {/* Hero Element */}
+          <View className="items-center">
+            <Hero recipe={ recipes[0] }/>
+          </View> 
+
+          {/* Latest Recipes */}
+          <View className="items-center">
+            <PrevEaten recipesProp={ recipes.slice(1, recipes.length) }/>
+          </View> 
         </View> 
+        
       </View>
     )
   

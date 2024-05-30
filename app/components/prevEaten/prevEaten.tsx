@@ -5,6 +5,7 @@ import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import firebaseAPI from 'app/API/firebaseAPI'
 import Divider from '@/components/divider';
+import LoadingScreen from '../loadingScreen/loadingScreen';
 
 const router = useRouter();
 
@@ -47,11 +48,10 @@ const PrevEaten = ({recipesProp}: PrevProps) => {
         let finalRecipeList = []
         if (recipes && !setImages) {
           for (const[index, value] of prop.entries()) {
-            //console.log(value)
             firebaseAPI.getRecipeImages(value).then((response) => {
                 finalRecipeList.push(response)
                 if (finalRecipeList.length == prop.length) {
-                  setRecipes([...recipes, ...finalRecipeList])
+                  setRecipes(finalRecipeList)
                   hasSetImages(true)
                 }
             })
@@ -69,10 +69,10 @@ const PrevEaten = ({recipesProp}: PrevProps) => {
           <Divider divider_text="Previously Eaten" />
           <View className="items-center">
             {
-                recipes.length != 0 ? 
-                  <ImageList recipes={recipes} hasSetImages={setImages} /> :
-                  <Text>Loading...</Text>
-                }
+              recipes.length != 0 ? 
+                <ImageList recipes={recipes} hasSetImages={setImages} /> :
+                <LoadingScreen />
+            }
           </View>
         </View> 
     )

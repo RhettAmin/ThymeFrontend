@@ -28,29 +28,28 @@ async function getImagefromFirebase(recipe: Recipe) {
                         new Promise<Recipe>((resolve, reject) => {
                             for (const [index, value] of zipContent.entries()) {
                                 let file = value
-                                let recipeNameCheck = value.includes(recipe.recipeId)
-
-                                if (recipeNameCheck) {
-                                    
-                                    zip.files[file].async("blob").then(function (blobFile) {
-                                        if (blobFile.size != 0) {
-                                            if (file.includes("main_")) {
-                                                recipe.mainImage = blobFile
-                                            } else {
-                                                const matches = file.match(".*\/(.d*)_.*")
-                                                if (matches) {
-                                                    const capturedIndex: number = Number(matches[1])
-                                                    recipe.instructionSection[capturedIndex].image = blobFile
-                                                }
-                                            }
-                                            instructionImagesSize--
-
-                                            if (instructionImagesSize == 0) {
-                                                resolve(recipe)
+                                
+                                zip.files[file].async("blob").then(function (blobFile) {
+                                    if (blobFile.size != 0) { 
+                                        if (file.includes("hero_")) {
+                                            recipe.heroImage = blobFile
+                                        } else if (file.includes("main_")) {
+                                            recipe.mainImage = blobFile
+                                        } else {
+                                            const matches = file.match(".*\/(.d*)_.*")
+                                            if (matches) {
+                                                const capturedIndex: number = Number(matches[1])
+                                                recipe.instructionSection[capturedIndex].image = blobFile
                                             }
                                         }
-                                    })
-                                }
+                                        instructionImagesSize--
+
+                                        if (instructionImagesSize == 0) {
+                                            resolve(recipe)
+                                        }
+                                    }
+                                })
+                                
                             }
                         }).then((response) => {
                             resolve(response)
