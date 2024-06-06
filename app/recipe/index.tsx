@@ -66,7 +66,7 @@ export default function RecipePage() {
                     <View className="flex px-8">
                         {  
                             recipe.mainImage?
-                                <DisplayMainImage mainImage={ recipe.mainImage } />
+                                <DisplayMainImage mainImage={ recipe.mainImage.imageFileRef } />
                                 : undefined
                         }
                         

@@ -57,7 +57,7 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
                         <View className="flex-none">
                             <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
                                 <Image 
-                                    source={URL.createObjectURL(item.mainImage!!)}
+                                    source={URL.createObjectURL(item.mainImage?.imageFileRef)}
                                     className=""
                                     style={{ width: 300, height: 300 }}
                                 /> 

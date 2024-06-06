@@ -70,6 +70,7 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
                 ingredient.name = ing.name
                 ingredient.measurement = ing.measurement
                 ingredient.quantity = ing.quantity
+                ingredient.type = ing.type
 
                 iSection.ingredients.push(ingredient)
             })

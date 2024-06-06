@@ -17,7 +17,7 @@ const Item = ( {title, style, text_style, navigation}: ItemProps ) => (
 
 export default function Header() {
     return (
-        <View className="py-5 items-center bg-background flex-row justify-center">
+        <View className="py-5 items-center bg-background flex-row justify-center space-x-10">
 
             <View className='pt-7'>
                 <Link href="/recipes" className='text-sm text-primary font-bold'> 

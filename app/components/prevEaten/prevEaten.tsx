@@ -24,15 +24,15 @@ function ImageList({ recipes, hasSetImages }: ImageListProps){
       data={recipes.slice(0,3)}
       className=""
       renderItem={ ({item}) =>
-        <View className="mx-2 items-center">
+        <View className="mx-2 items-center w-[300px]">
           <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
             <Image 
-                source={URL.createObjectURL(item.mainImage!!)}
+                source={URL.createObjectURL(item.mainImage?.imageFileRef)}
                 className=""
                 style={{ width: 300, height: 300 }}
             /> 
           </Link>
-          <Text className="pt-2 text-lg text-primary font-bold">{ item.name }</Text>
+          <Text className="pt-2 text-lg text-primary font-bold text-center">{ item.name }</Text>
        </View>
       }
       horizontal={true}

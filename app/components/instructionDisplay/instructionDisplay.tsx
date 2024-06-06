@@ -28,7 +28,7 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
                             <View className="flex-initial">
                                 {
                                     item.image ?
-                                        <Image source={ URL.createObjectURL(item.image)} style={{ width: 200, height: 200 }}/>
+                                        <Image source={ URL.createObjectURL(item.image.imageFileRef)} style={{ width: 200, height: 200 }}/>
                                         : undefined
                                 }
                             </View>

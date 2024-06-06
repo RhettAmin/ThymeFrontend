@@ -3,8 +3,6 @@ import { Text, View, FlatList, Switch } from 'react-native';
 import { useState, useEffect } from 'react';
 import conversionUtil from './convertUnits';
 
-
-
 interface IngredientBoxProps {
     ingredientSection: IngredientSection[],
     serving: Serving
@@ -41,11 +39,15 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
                 iSection.sectionName = section.sectionName
                 for(const [index, ingredient] of section.ingredients.entries()) { 
                     let ingre = new Ingredient
-                    let convertedValue: ConvertedMeasurement = conversionUtil.convertToImperial(ingredient.quantity, ingredient.measurement)
-                    ingre.name = ingredient.name
-                    ingre.quantity = convertedValue.quantity
-                    ingre.measurement = convertedValue.measurement
-                    iSection.ingredients.push(ingre)
+                    let convertedValue: ConvertedMeasurement
+                    conversionUtil.convertToImperial(ingredient).then((response) => {
+                        convertedValue = response
+
+                        ingre.name = ingredient.name
+                        ingre.quantity = convertedValue.quantity
+                        ingre.measurement = convertedValue.measurement
+                        iSection.ingredients.push(ingre)
+                    })                    
                 }
                 ingSection.push(iSection)
                 if (index == ingredientSectionToChange.length-1) {
@@ -76,12 +78,14 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
         convertMetricToImperial(ingredientSection).then((response) => {
             setIngredientSectionsMetric(ingredientSection)
             setIngredientSectionsImperial(response)
+            console.log(ingredientSectionsMetric)
+            console.log(ingredientSectionsImperial)
         })
     }
 
     useEffect(() => {
-        setTables()
         setServing(serving)
+        setTables()
     },[ingredientSection])
 
     return (

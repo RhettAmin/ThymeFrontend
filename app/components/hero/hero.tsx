@@ -22,7 +22,7 @@ function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
                 {
                     recipe && recipe.heroImage ?
                     <Image 
-                        source={URL.createObjectURL(recipe.heroImage)}
+                        source={URL.createObjectURL(recipe.heroImage.imageFileRef)}
                         className=""
                         style={{ width: 640, height: 320 }}
                     /> : undefined
