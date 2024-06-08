@@ -7,6 +7,7 @@ import ThymeAPI from '@/API/thymeAPI';
 import firebaseAPI from 'app/API/firebaseAPI'
 import Divider from '@/components/divider';
 import LoadingScreen from '@/components/loadingScreen/loadingScreen';
+import ErrorPage from '@/components/errorPage/errorPage';
 
 const tagColour = [
     '#B2E1E4',
@@ -94,6 +95,8 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
 export default function Recipes() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [setImages, hasSetImages] = useState<Boolean>(false);
+    const [backendError, setBackendError] = useState<Boolean>(false);
+    const [fireBaseError, setFireBaseError] = useState<Boolean>(false);
 
     const getRecipes = async () => {
         let finalRecipeList = []
@@ -105,8 +108,12 @@ export default function Recipes() {
                         setRecipes(recipeList)
                         hasSetImages(true)
                     }
+                }).catch((error)=> {
+                    setFireBaseError(true)
                 })
             }
+        }).catch((error) => {
+            setBackendError(true)
         })
     }
 
@@ -116,14 +123,19 @@ export default function Recipes() {
 
     return (
         <View className="flex-1 items-center py-5 bg-background">
-            {/** All Recipes title and dividers */}
-            <Divider divider_text="All Recipes" />
             {
-                recipes.length > 0 ? 
-                <ImageList recipes={recipes} hasSetImages={setImages} /> :
-                <LoadingScreen />
+                backendError || fireBaseError ?
+                    <ErrorPage errorCode={500}></ErrorPage>
+                :
+                    <View className="items-center">
+                        <Divider divider_text="All Recipes" />
+                        {
+                            recipes.length > 0 ? 
+                            <ImageList recipes={recipes} hasSetImages={setImages} /> :
+                            <LoadingScreen />
+                        }
+                    </View>
             }
-            
         </View>
         
     );
