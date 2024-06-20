@@ -89,29 +89,26 @@ const IngredientBox = ({ingredientSection}: IngredientBoxProps) => {
     },[ingredientSection])
 
     return (
-        <View>
+        <View className="-mx-5 sm:mx-0">
             <View>
                 <MeasurementSwitch/>
             </View>
             <FlatList
                 data={ isMetric ? ingredientSectionsMetric : ingredientSectionsImperial }
                 keyExtractor={ keyExtractor }
+                className="text"
                 renderItem={({ item }) => {
                     return (
-                        <View className="pl-2 pb-4">
-                            <Text className="text-primary font-bold">{ item.sectionName }</Text>
+                        <View className="pb-4">
+                            <Text className="text-primary font-bold text-lg sm:text-base sm:text-left">{ item.sectionName }</Text>
                             <FlatList
                                 data={ item.ingredients }
                                 keyExtractor={ innerKeyExtractor }
                                 renderItem={({ item }) => {
                                     return (
-                                        <li className="pl-3 text-primary"> 
-                                            { ` \u2022
-                                                ${ item.quantity.toString() }
-                                                ${ item.measurement }
-                                                ${ item.name }  
-                                            `}
-                                        </li>
+                                        <Text className="text-primary text-lg sm:text-base"> 
+                                            { ` \u2022 ${ item.quantity.toString() } ${ item.measurement } ${ item.name } ` }
+                                        </Text>
                                     );
                                 }}
                             />

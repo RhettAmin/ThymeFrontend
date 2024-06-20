@@ -24,24 +24,24 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
                 return (
                     <View className="pb-4">
                         <Text className="text-primary text-lg font-bold pb-2">{ item.sectionName }</Text>
-                        <View className="flex-row overflow-auto">
-                            <View className="flex-initial">
+                        <View className="flex-col sm:flex-row">
+                            <View className="items-center py-2">
                                 {
                                     item.image ?
                                         <Image source={ URL.createObjectURL(item.image.imageFileRef)} style={{ width: 200, height: 200 }}/>
                                         : undefined
                                 }
                             </View>
-                            <View className="flex-1">
+                            <View className="flex-auto">
                                 <FlatList
                                     className=""
                                     data={ item.steps }
                                     keyExtractor={ innerKeyExtractor }
                                     renderItem={({item, index}) => {
                                         return (
-                                            <View className="flex flex-row pl-2">
-                                                <Text className="text-primary font-semibold">{ index + 1 }</Text>
-                                                <Text className="pl-3 text-medium text-primary">{ item }</Text>
+                                            <View className="flex flex-row sm:pl-2">
+                                                <Text className="text-primary font-semibold text-lg sm:text-base">{ index + 1 }</Text>
+                                                <Text className="pl-3 text-medium text-primary text-lg sm:text-base">{ item }</Text>
                                             </View>
                                         );
                                     }}

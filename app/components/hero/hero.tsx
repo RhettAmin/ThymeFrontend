@@ -5,6 +5,7 @@ import { Recipe } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import firebaseAPI from 'app/API/firebaseAPI';
 import LoadingScreen from '../loadingScreen/loadingScreen';
+import { getHeroWindowSize } from '@/utils/windowSize';
 
 interface HeroProps {
     recipe: Recipe
@@ -16,6 +17,7 @@ interface HeroDisplayProps {
 }
 
 function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
+    const winSize = getHeroWindowSize() 
     if (hasSetImages) {
         return <Link href={{pathname:"/recipe" , params: {id: recipe?.recipeId} }} className="">
             <View className="items-center">
@@ -23,8 +25,8 @@ function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
                     recipe && recipe.heroImage ?
                     <Image 
                         source={URL.createObjectURL(recipe.heroImage.imageFileRef)}
-                        className=""
-                        style={{ width: 640, height: 320 }}
+                        className="w-[50%] sm:w-1/2"
+                        style={{ width: winSize.width, height: winSize.height }}
                     /> : undefined
                 }
                 <Text className="pt-2 text-lg text-primary font-bold">{ recipe?.name }</Text>

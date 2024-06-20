@@ -6,7 +6,7 @@ import ThymeAPI from '@/API/thymeAPI';
 import Hero from '@/components/hero/hero';
 import PrevEaten from '@/components/prevEaten/prevEaten';
 import ErrorPage from '@/components/errorPage/errorPage';
-
+import { isMobileSize } from '@/utils/windowSize';
 
 /* Main  */
 export default function Home() {
@@ -28,14 +28,19 @@ export default function Home() {
 
   return (
     
-    <View>
+    <View id="base">
       {
         backendError == true ?
           <ErrorPage errorCode={ 500 }/>
         :
           <View className='flex-1 items-center py-5 bg-background'>
 
-            <Divider divider_text="Hot and Fresh" />
+            { 
+                isMobileSize() ? 
+                <Divider divider_text="Hot and Fresh" width={90} height={30}/> :
+                <Divider divider_text="Hot and Fresh" />
+            }
+            
 
             <View>
               {/* Hero Element */}

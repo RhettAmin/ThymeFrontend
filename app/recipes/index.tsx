@@ -8,6 +8,7 @@ import firebaseAPI from 'app/API/firebaseAPI'
 import Divider from '@/components/divider';
 import LoadingScreen from '@/components/loadingScreen/loadingScreen';
 import ErrorPage from '@/components/errorPage/errorPage';
+import { isMobileSize, getRecipesWindowSize } from '@/utils/windowSize';
 
 const tagColour = [
     '#B2E1E4',
@@ -31,22 +32,24 @@ function getTagColour(num: number): string {
 }
 
 function convertArrayToButtons(array: string[]) {
-    return <View>
+    const horizontal = isMobileSize() ? true : false
+    return <View className="">
         <FlatList
             data={array}
-            className=""
+            className="text-center"
             renderItem={ ({item, index}) =>
-                <View className="bg-button p-1 mx-2 rounded-lg border"
+                <View className="bg-button p-1 m-1 rounded-lg border"
                     style={{ backgroundColor: getTagColour(index)}}>
-                    <Text>{ item }</Text>
+                    <Text className="text-center">{ item }</Text>
                 </View>
             }
-            horizontal={true}
+            horizontal={horizontal}
         />  
     </View>
 }
   
 function ImageList({ recipes, hasSetImages }: ImageListProps) {
+    
     if (hasSetImages) {
         return <FlatList
         data={recipes}
@@ -54,38 +57,38 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
         renderItem={ ({item}) =>
             // Card border
             <View className="flex p-4 bg-recipeCard my-2">
-                    <View className="flex-row">
-                        <View className="flex-none">
-                            <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
-                                <Image 
-                                    source={URL.createObjectURL(item.mainImage?.imageFileRef)}
-                                    className=""
-                                    style={{ width: 300, height: 300 }}
-                                /> 
-                            </Link>
-                        </View>
-                        <View className="flex-1">
-                            <View className="flex-auto pl-5">
-                                <View className="flex-row justify-between">
-                                    <Text className="text-xl text-primary font-bold">{ item.name }</Text>
-                                    <Text className="text-base text-primary pt-1 ">{ item.updatedDate }</Text>
-                                </View>
-                                <Text className="pt-5 text-lg text-primary font-medium">{ item.description }</Text>
-                            </View>
-                            <View className="flex-auto">
-                                <View className="flex items-center">
-                                    <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
-                                        <View className="bg-header rounded-lg border flex items-center py-2 px-4">
-                                            <Text className="text-lg font-semibold">Cook it!</Text>
-                                        </View>
-                                    </Link>
-                                </View>
-                            </View>
-                            <View className="pl-3 flex-intial">
+                <View className="flex-col sm:flex-row">
+                    <View className="flex-none items-center">
+                        <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
+                            <Image 
+                                source={URL.createObjectURL(item.mainImage?.imageFileRef)}
+                                className=""
+                                style={{ width: 150 , height: 150 }}
+                            /> 
+                        </Link>
+                            <View className="pt-2 flex-intial">
                                 { convertArrayToButtons(item.tags) }
+                            </View> 
+                    </View>
+                    <View className="flex-1">
+                        <View className="flex-auto pl-5 ">
+                            <View className="flex-col sm:flex-row justify-between">
+                                <Text className="text-xl text-primary font-bold">{ item.name }</Text>
+                                <Text className="text-base text-primary font-semibold pt-1">{ item.updatedDate }</Text>
+                            </View>
+                            <Text className="py-5 text-lg text-primary font-medium">{ item.description }</Text>
+                        </View>
+                        <View className="flex-auto">
+                            <View className="flex items-center">
+                                <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
+                                    <View className="bg-header rounded-lg border flex items-center py-2 px-4">
+                                        <Text className="text-lg font-semibold">Cook it!</Text>
+                                    </View>
+                                </Link>
                             </View>
                         </View>
                     </View>
+                </View>
             </View>
         }
         />  
@@ -127,7 +130,7 @@ export default function Recipes() {
                 backendError || fireBaseError ?
                     <ErrorPage errorCode={500}></ErrorPage>
                 :
-                    <View className="items-center">
+                    <View className="items-center w-[150%] sm:w-[100%]">
                         <Divider divider_text="All Recipes" />
                         {
                             recipes.length > 0 ? 

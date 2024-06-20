@@ -11,6 +11,7 @@ import IngredientBox from '@/components/ingredientBox/ingredientBox'
 import InstructionDisplay from '@/components/instructionDisplay/instructionDisplay'
 import LoadingScreen from '@/components/loadingScreen/loadingScreen';
 import ErrorPage from '@/components/errorPage/errorPage';
+import { isMobileSize } from '@/utils/windowSize';
 
 
 interface ImageProps {
@@ -32,7 +33,7 @@ function DisplayMainImage({mainImage}: ImageProps) {
             mainImage ? 
             <Image
                 source={ URL.createObjectURL(mainImage) } 
-                style={{ width: 250, height: 250 }}
+                style={{ width: 300, height: 300 }}
             /> :
             undefined
         }
@@ -65,7 +66,7 @@ export default function RecipePage() {
     }, [id]);
 
     return (
-        <View className="items-center bg-background">
+        <View className="my-5 items-center">
             {
                 serverError ?
                     <ErrorPage errorCode={404}/>
@@ -73,22 +74,24 @@ export default function RecipePage() {
                 firebaseError ? 
                     <ErrorPage errorCode={500} />
                 :
-                    <View className="items-center">
+                    <View className="w-[90%] sm:w-3/4">
                     {
                         recipe ?
                 
-                        <View id="recipeCard" className="flex py-8 sm:flex-col md:flex-row sm:w-[90%] md:w-[90%] lg:w-[60%] my-10 divide-x bg-recipeCard">
+                        <View id="recipeCard" className="py-5 sm:px-4 sm:flex-col md:flex-row sm:divide-x bg-recipeCard">
                             {/* Image and Ingredients  */}
-                            <View className="flex px-8">
+                            <View className="flex py-4 sm:px-4 items-center sm:items-start">
                                 {  
-                                    recipe.mainImage?
+                                    recipe.mainImage ?
                                         <DisplayMainImage mainImage={ recipe.mainImage.imageFileRef } />
                                         : undefined
                                 }
-                                
+
+                                { isMobileSize() ? <Text className="uppercase text-3xl font-bold text-primary text-center">{ recipe.name }</Text> : '' }
+
                                 {/* Ingredients */}
-                                <View className="flex">
-                                    <Text className="uppercase text-xl font-bold text-primary pt-5 pb-4">Ingredients</Text>
+                                <View className="flex w-3/4 sm:w-[100svh]">
+                                    <Text className="uppercase text-2xl sm:text-xl font-bold text-primary pt-5 pb-4 text-center sm:text-left">Ingredients</Text>
                                     <IngredientBox ingredientSection={ recipe.ingredientSection } serving={ recipe.serving } />
                                 </View>
                             </View>
@@ -97,19 +100,19 @@ export default function RecipePage() {
                             {/* Main Info */}
                             <View className="sm:flex-col flex-[2_2_0%] px-8">
                                 <View>
-                                    <Text className="uppercase text-xl font-bold text-primary">{ recipe.name }</Text>
+                                    { isMobileSize() ? '' : <Text className="uppercase text-xl font-bold text-primary">{ recipe.name }</Text> }
                                     <View className="divide-y-2 divide-dashed divide-emerald-800">
-                                        <View className="pt-2 mb-4">
-                                            <View className="flex-row">
+                                        <View className="flex pt-2 mb-4 flex-row sm:flex-col">
+                                            <View className="flex-1 flex-row sm:flex-none">
                                                 <Text className="font-bold text-primary">Time: </Text><Text className="text-black">{ convertMinutesToHourNotation(recipe.timeToPlate) }</Text>
                                             </View>
-                                            <View className="flex-row">
+                                            <View className="flex-1 flex-row sm:flex-none">
                                                 <Text className="font-bold text-primary">Servings: </Text><Text className="text-black">{ recipe.serving.totalServings }</Text>
                                             </View>
                                         </View>
                                         {/* Instructions */}
                                         <View>
-                                            <Text className="uppercase text-xl font-bold text-primary py-5">Instructions</Text>
+                                            <Text className="uppercase text-2xl sm:text-xl font-bold text-primary py-5 text-center sm:text-left">Instructions</Text>
                                             <InstructionDisplay instructionSection={ recipe.instructionSection } />
                                         </View>
                                     </View>
