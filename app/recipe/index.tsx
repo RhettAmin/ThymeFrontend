@@ -74,7 +74,7 @@ export default function RecipePage() {
                 firebaseError ? 
                     <ErrorPage errorCode={500} />
                 :
-                    <View className="w-[90%] sm:w-3/4">
+                    <View className="w-[90%] sm:w-3/4 bg-background">
                     {
                         recipe ?
                 
@@ -87,11 +87,23 @@ export default function RecipePage() {
                                         : undefined
                                 }
 
-                                { isMobileSize() ? <Text className="uppercase text-3xl font-bold text-primary text-center">{ recipe.name }</Text> : '' }
+                                { isMobileSize() ? 
+                                    <View>
+                                        <Text className="uppercase text-3xl font-bold text-primary text-center">{ recipe.name }</Text> 
 
+                                        <View className="items-center pt-4">
+                                            <Divider divider_text='' width={ 100 } height={ 30 }/>
+                                        </View>
+                                    </View>
+                                    : '' 
+                                }
+                                <View className="flex-1 flex-row sm:flex-none pt-4">
+                                    <Text className="font-bold text-primary">Time To Dining Table: </Text>
+                                    <Text className="font-semibold text-primary">{ convertMinutesToHourNotation(recipe.timeToPlate) }</Text>
+                                </View>
+                                
                                 {/* Ingredients */}
-                                <View className="flex w-3/4 sm:w-[100svh]">
-                                    <Text className="uppercase text-2xl sm:text-xl font-bold text-primary pt-5 pb-4 text-center sm:text-left">Ingredients</Text>
+                                <View className="flex w-3/4 sm:w-full">
                                     <IngredientBox ingredientSection={ recipe.ingredientSection } serving={ recipe.serving } />
                                 </View>
                             </View>
@@ -100,16 +112,22 @@ export default function RecipePage() {
                             {/* Main Info */}
                             <View className="sm:flex-col flex-[2_2_0%] px-8">
                                 <View>
-                                    { isMobileSize() ? '' : <Text className="uppercase text-xl font-bold text-primary">{ recipe.name }</Text> }
+                                    { isMobileSize() ? '' : <Text className="uppercase text-3xl font-bold text-primary">{ recipe.name }</Text> }
+
+                                    <View className="items-center pt-4">
+                                        <Divider divider_text='' width={ 100 } height={ 30 }/>
+                                    </View>
+
                                     <View className="divide-y-2 divide-dashed divide-emerald-800">
-                                        <View className="flex pt-2 mb-4 flex-row sm:flex-col">
+                                        {/*<View className="flex pt-2 mb-4 flex-row sm:flex-col">
                                             <View className="flex-1 flex-row sm:flex-none">
-                                                <Text className="font-bold text-primary">Time: </Text><Text className="text-black">{ convertMinutesToHourNotation(recipe.timeToPlate) }</Text>
+                                                <Text className="font-bold text-primary">Time To Dining Table: </Text><Text className="text-black">{ convertMinutesToHourNotation(recipe.timeToPlate) }</Text>
                                             </View>
                                             <View className="flex-1 flex-row sm:flex-none">
                                                 <Text className="font-bold text-primary">Servings: </Text><Text className="text-black">{ recipe.serving.totalServings }</Text>
-                                            </View>
+                                            </View> 
                                         </View>
+                                        */}
                                         {/* Instructions */}
                                         <View>
                                             <Text className="uppercase text-2xl sm:text-xl font-bold text-primary py-5 text-center sm:text-left">Instructions</Text>

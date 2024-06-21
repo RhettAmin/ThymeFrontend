@@ -18,7 +18,7 @@ export default function () {
         <Header />
       </View>
       
-      <View className="flex-grow">
+      <View className="flex-grow background">
         <Slot />
       </View>
 

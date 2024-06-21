@@ -60,6 +60,10 @@ async function convertToImperial(ingredient: Ingredient) {
     })
 }
 
+function convertIngredientAmounts() {
+    
+}
+
 function convertToOunces(value: number, measurement: string): number {
     // console.log(`${value} -- ${measurement}`)
     // console.log(value * conversion.gramsToOz)
