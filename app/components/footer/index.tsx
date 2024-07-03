@@ -1,4 +1,4 @@
-import {Text, View, FlatList } from 'react-native';
+import {Text, View, FlatList, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { Link } from "expo-router";
 import { Linking } from 'react-native';
@@ -27,7 +27,7 @@ const LINKS_DATA = [
 export default function Footer() {
     return (
         <View className='flex items-center bg-footer'>
-            <View className='flex-col sm:flex-row items-center py-2 sm:mx-16 gap-x-20'>
+            <View className='flex-col sm:flex-row items-center py-2 sm:mx-10 gap-x-20'>
                 <Link href={{ pathname:"/home" }} className="">
                     <Text className="text-xl text-primary font-bold">Thyme to Dine</Text>
                 </Link>
@@ -45,17 +45,20 @@ export default function Footer() {
                 </View>
                 {/* Contact Us and Social */}
                 <View className="text-center items-center sm:items-start px-4 sm:mx-0">
-                    <Text className="text-primary font-bold pb-1" 
-                            onPress={() => Linking.openURL('mailto:rhett.thyme@gmail.com')}>
-                                Email Me
-                    </Text>
+                    <Pressable>
+                        <Text className="text-primary font-bold pb-1" 
+                                onPress={() => Linking.openURL('mailto:rhett.thyme@gmail.com')}>
+                                    Email Me
+                        </Text>
+                    </Pressable>
                     <Text className="text-primary font-bold pb-2">Socials</Text>
                     <View className="flex sm:pl-3">
                         <Link href={{ pathname:"https://www.instagram.com/_thyme_to_dine_/" }} className="py-1">
                             <Image
                                 className=""
                                 source={ require('@/assets/Instagram_Glyph_Black.png') } 
-                                style={{ width: 20, height: 20 }}
+                                style={{ width: 30, height: 30 }}
+                                accessibilityLabel='Link to Instagram page'
                             />
                         </Link>
                     </View>

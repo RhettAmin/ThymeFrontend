@@ -28,7 +28,10 @@ const InstructionDisplay = ({instructionSection}: InstructionBoxProps) => {
                             <View className="items-center py-2">
                                 {
                                     item.image ?
-                                        <Image source={ URL.createObjectURL(item.image.imageFileRef)} style={{ width: 200, height: 200 }}/>
+                                        <Image source={ URL.createObjectURL(item.image.imageFileRef)} 
+                                            style={{ width: 200, height: 200 }}
+                                            accessibilityLabel={ item.metadata.altText }    
+                                        />
                                         : undefined
                                 }
                             </View>

@@ -1,6 +1,5 @@
 import { View, Text, Pressable, FlatList } from 'react-native'
 import { Link } from 'expo-router'
-import { Dimensions } from 'react-native';
 import { isMobileSize } from '@/utils/windowSize';
 import { Image } from 'expo-image';
 import { useState } from 'react';
@@ -59,44 +58,47 @@ function MobileHeader() {
 
     function changeSideDrawerVisibility() {
         shouldDisplaySideDrawer(!displaySideDrawer)
+        console.log(displaySideDrawer)
     }
 
     return <View className="py-5 items-center flex-row justify-center space-x-10">
-            {
-                displaySideDrawer ?
-                createPortal(<View className="absolute bg-footer h-[165vh] w-[150px] z-index-20">
-                    
-                        <View className="flex-row pt-2 justify-end">
-                            <Pressable className="fixed pr-2 text-primary" onPress={e => changeSideDrawerVisibility()}>
-                                <Image
-                                    source={ require('@/assets/close.webp') } 
-                                    style={{ width: 15, height: 15 }}
-                                />
-                            </Pressable>
-                        </View>
-                        <View>
-                            <Text className="px-1 pt-4 text-primary font-bold text-lg">THYME TO DINE</Text>
-                        </View>
-                        <View>
-                            <FlatList
-                                data={ headerInfo }
-                                className="pl-1 pt-2"
-                                renderItem={ ({item}) => {
-                                    return (
-                                        <Link className="py-2" href={ item.path }> 
-                                            <Pressable className="" onPress={e => changeSideDrawerVisibility()}>
-                                                <Text className="text-primary font-semibold"> { item.name } </Text>
-                                            </Pressable>
-                                        </Link>
-                                    )}
-                                }
-                            />  
-                        </View>
-                </View>, document.getElementById("root")!!) : null
-            }
+        {
+            createPortal(<View role="navigation" aria-hidden={ displaySideDrawer ? false : true }
+                className={`absolute top-0 left-0 z-10 bg-footer h-[100vh] px-[14px] transition-transform
+                    ease-in-out duration-5000 ${ displaySideDrawer ? "translate-x-0" : "-translate-x-[200px]" } `}>
+                
+                    <View className="flex-row pt-2 -mr-2 justify-end">
+                        <Pressable className="text-primary" onPress={e => changeSideDrawerVisibility()}>
+                            <Image
+                                source={ require('@/assets/close.webp') } 
+                                style={{ width: 15, height: 15 }}
+                            />
+                        </Pressable>
+                    </View>
+                    <View>
+                        <Text className="px-1 pt-4 text-primary font-bold text-lg">THYME TO DINE</Text>
+                    </View>
+                    <View>
+                        <FlatList
+                            data={ headerInfo }
+                            className="pl-1 pt-2"
+                            renderItem={ ({item}) => {
+                                return (
+                                    <Link className="py-2" href={ item.path }> 
+                                        <Pressable className="" onPress={e => changeSideDrawerVisibility()}>
+                                            <Text className="text-primary font-semibold"> { item.name } </Text>
+                                        </Pressable>
+                                    </Link>
+                                )}
+                            }
+                        />  
+                    </View>
+                </View>
+            , document.getElementById("root")!!)
+        }   
 
             <View className="flex-row space-x-10">
-                <Pressable className={displaySideDrawer ? '-ml-[88px]' : '-ml-12'} onPress={e => changeSideDrawerVisibility()}>
+                <Pressable className={displaySideDrawer ? '-ml-[88px]' : '-ml-[88px]'} onPress={e => changeSideDrawerVisibility()}>
                     <Image
                         source={ require('@/assets/hamburger.png') } 
                         style={{ width: 20, height: 20}}
@@ -111,9 +113,6 @@ function MobileHeader() {
 }
 
 export default function Header() {
-    console.log('Window: ', 
-        'height: ' + Dimensions.get('window').height, 
-        '/ width: ' + Dimensions.get('window').width)
 
     return (
         <View>

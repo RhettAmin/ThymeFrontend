@@ -3,6 +3,7 @@ class RecipeDTO {
     name: string = "";
     description: string = "";
     serving: ServingDTO = new ServingDTO;
+    metadata: Metadata = new Metadata;
     tags: string[] = [];
     time_to_plate: number = 0;
     images: string = "";
@@ -11,6 +12,10 @@ class RecipeDTO {
     ingredient_section: IngredientSectionDTO[] = [];
     instruction_section: InstructionSectionDTO[] = [];
     nutrition_facts: NutritionFactsDTO = new NutritionFactsDTO;
+}
+
+class Metadata {
+    main_image_alt_text: string = ''
 }
 
 class ServingDTO {
@@ -33,7 +38,12 @@ class IngredientDTO {
 
 class InstructionSectionDTO {
     section_name: string = "";
+    metadata: InstructionImageMetadata = new InstructionImageMetadata;
     steps: string[] = [];
+}
+
+class InstructionImageMetadata {
+    alt_text: string = ''
 }
 
 class NutritionFactsDTO {

@@ -45,7 +45,7 @@ export default function Home() {
             <View>
               {/* Hero Element */}
               <View className="items-center">
-                <Hero recipe={ recipes[0] }/>
+                <Hero recipe={ recipes[0] } />
               </View> 
 
               {/* Latest Recipes */}

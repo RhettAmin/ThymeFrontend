@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Linking } from 'react-native';
 import { Image } from 'expo-image';
 import { Link } from "expo-router";
@@ -34,10 +34,13 @@ export default function About() {
                             <Text className="font-bold text-primary">
                                 Contact:   
                             </Text>
-                            <Text className="pl-2 text-blue-700"
-                                    onPress={() => Linking.openURL('mailto:rhett.thyme@gmail.com')}>
-                                    rhett.thyme@gmail.com
-                            </Text>
+                            <Pressable>
+                                <Text className="pl-2 text-blue-700"
+                                        onPress={() => Linking.openURL('mailto:rhett.thyme@gmail.com')}
+                                        accessibilityLabel='Link to contact email'>
+                                        rhett.thyme@gmail.com
+                                </Text>
+                            </Pressable>
                         </View>
                         <View className="flex-row pt-2 sm:pt-0 sm:pl-8">
                             <Text className="font-bold text-primary">
@@ -49,6 +52,7 @@ export default function About() {
                                         className=""
                                         source={ require('@/assets/Instagram_Glyph_Black.png') } 
                                         style={{ width: 20, height: 20 }}
+                                        accessibilityLabel='Link to Instagram page'
                                     />
                                 </Link>
                             </View>

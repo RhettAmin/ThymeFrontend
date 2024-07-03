@@ -2,6 +2,7 @@ import { Serving, IngredientSection, Ingredient } from 'app/model/recipe';
 import { Text, View, FlatList, Switch } from 'react-native';
 import { useState, useEffect, ChangeEvent } from 'react';
 import conversionUtil from './convertUnits';
+import { isMobileSize } from '@/utils/windowSize';
 
 interface IngredientBoxProps {
     ingredientSection: IngredientSection[],
@@ -117,13 +118,19 @@ const IngredientBox = ({ ingredientSection, serving }: IngredientBoxProps) => {
         <View className="-mx-5 sm:mx-0">
             <Text className="uppercase text-2xl sm:text-xl font-bold text-primary pt-5 pb-4 ">Ingredients</Text>
             <View className="flex-row pb-5">
-                <Text className="flex-1 font-bold text-primary">Total Servings</Text>
-                <View className="flex-1 -mt-1 -ml-20 sm:-ml-2">
-                    <input type="number" className="px-2 !mx-2" style={{ borderRadius: "10px", width: "50%" }} value={ servingObj?.totalServings } onChange={ e => changeServing(e) }/>
+                <label htmlFor="servingAmount" className="flex-1 font-bold text-primary">Total Servings</label>
+                <View className="flex-1 -ml-20 sm:-ml-2">
+                    <input type="number" 
+                        id="servingAmount"
+                        className="px-2 !mx-2" 
+                        style={{ borderRadius: "10px", width: "35%" }} 
+                        value={ servingObj?.totalServings } 
+                        onChange={ e => changeServing(e) }
+                    />
                 </View>
             </View>
             
-            <View>
+            <View className="">
                 <MeasurementSwitch/>
             </View>
             <FlatList

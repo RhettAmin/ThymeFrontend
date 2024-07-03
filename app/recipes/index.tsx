@@ -64,6 +64,7 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
                                 source={URL.createObjectURL(item.mainImage?.imageFileRef)}
                                 className=""
                                 style={{ width: 150 , height: 150 }}
+                                accessibilityLabel={ item.metadata.mainImageAltText }
                             /> 
                         </Link>
                             <View className="pt-2 flex-intial">

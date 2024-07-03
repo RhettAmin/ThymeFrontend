@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Link } from "expo-router";
-import { Recipe } from 'app/model/recipe';
+import { Recipe, Metadata } from 'app/model/recipe';
 import { Image } from 'expo-image';
 import firebaseAPI from 'app/API/firebaseAPI';
 import LoadingScreen from '../loadingScreen/loadingScreen';
@@ -27,6 +27,7 @@ function HeroDisplay({recipe, hasSetImages}: HeroDisplayProps){
                         source={URL.createObjectURL(recipe.heroImage.imageFileRef)}
                         className="w-[50%] sm:w-1/2"
                         style={{ width: winSize.width, height: winSize.height }}
+                        accessibilityLabel={ recipe.metadata.mainImageAltText }
                     /> : undefined
                 }
                 <Text className="pt-2 text-lg text-primary font-bold">{ recipe?.name }</Text>

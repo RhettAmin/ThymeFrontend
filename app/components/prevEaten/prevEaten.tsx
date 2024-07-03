@@ -9,12 +9,12 @@ import LoadingScreen from '../loadingScreen/loadingScreen';
 import { getPrevEatenWindowSize, isMobileSize } from '@/utils/windowSize';
 
 interface PrevProps {
-    recipesProp: Recipe[]
+    recipesProp: Recipe[],
 }
 
 type ImageListProps = {
   recipes: Recipe[],
-  hasSetImages: Boolean
+  hasSetImages: Boolean,
 }
 
 function ImageList({ recipes, hasSetImages }: ImageListProps) {
@@ -24,12 +24,13 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
       data={recipes.slice(0,3)}
       className=""
       renderItem={ ({item}) =>
-        <View className="mx-2 items-center pb-8 sm:pb-0">
+        <View className="mx-2 items-center pb-8 sm:pb-0" style={{ width: window.width + 25 }}>
           <Link href={{ pathname:"/recipe" , params: {id: item.recipeId } }}>
             <Image 
                 source={ URL.createObjectURL(item.mainImage?.imageFileRef) }
                 className=""
                 style={{ width: window.width, height: window.height }}
+                accessibilityLabel={ item.metadata.mainImageAltText }
             /> 
           </Link>
           <Text className="pt-2 text-lg text-primary font-bold text-center">{ item.name }</Text>
@@ -43,7 +44,6 @@ function ImageList({ recipes, hasSetImages }: ImageListProps) {
 const PrevEaten = ({recipesProp}: PrevProps) => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [setImages, hasSetImages] = useState<Boolean>(false);
-    const [size, setSize] = useState([0, 0]);
     
     const getRecipeImages = async (prop: Recipe[]) => {
       let finalRecipeList = []

@@ -45,6 +45,9 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
         recipe.name = recipeDTO.name
         recipe.description = recipeDTO.description
 
+        // Metadata
+        recipe.metadata.mainImageAltText = recipeDTO.metadata.main_image_alt_text
+
         // Serving
         recipe.serving.amount = recipeDTO.serving.amount
         recipe.serving.servingSize = recipeDTO.serving.serving_size
@@ -87,6 +90,8 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
             const iSection = new InstructionSection
             
             iSection.sectionName = section.section_name
+            iSection.metadata.altText = section.metadata.alt_text
+
             const steps: string[] = []
             section.steps.forEach((step) => {
                 steps.push(step)

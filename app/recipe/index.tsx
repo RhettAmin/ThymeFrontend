@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { Recipe } from 'app/model/recipe';
+import { Recipe, Metadata } from 'app/model/recipe';
 import { useState, useEffect } from 'react';
 import { Image } from 'expo-image';
 import ThymeAPI from '@/API/thymeAPI';
@@ -15,7 +15,8 @@ import { isMobileSize } from '@/utils/windowSize';
 
 
 interface ImageProps {
-    mainImage: Blob | undefined
+    mainImage: Blob | undefined,
+    metadata: Metadata
 }
 
 function convertMinutesToHourNotation(timeInMinutes: number) {
@@ -27,13 +28,14 @@ function convertMinutesToHourNotation(timeInMinutes: number) {
     return `${hours}:${minutes}`
 }
 
-function DisplayMainImage({mainImage}: ImageProps) {
+function DisplayMainImage({mainImage, metadata}: ImageProps) {
     return <View className="items-center">
         {
             mainImage ? 
             <Image
                 source={ URL.createObjectURL(mainImage) } 
                 style={{ width: 300, height: 300 }}
+                accessibilityLabel={ metadata.mainImageAltText }
             /> :
             undefined
         }
@@ -83,7 +85,7 @@ export default function RecipePage() {
                             <View className="flex py-4 sm:px-4 items-center sm:items-start">
                                 {  
                                     recipe.mainImage ?
-                                        <DisplayMainImage mainImage={ recipe.mainImage.imageFileRef } />
+                                        <DisplayMainImage mainImage={ recipe.mainImage.imageFileRef } metadata={ recipe.metadata }/>
                                         : undefined
                                 }
 
@@ -119,15 +121,6 @@ export default function RecipePage() {
                                     </View>
 
                                     <View className="divide-y-2 divide-dashed divide-emerald-800">
-                                        {/*<View className="flex pt-2 mb-4 flex-row sm:flex-col">
-                                            <View className="flex-1 flex-row sm:flex-none">
-                                                <Text className="font-bold text-primary">Time To Dining Table: </Text><Text className="text-black">{ convertMinutesToHourNotation(recipe.timeToPlate) }</Text>
-                                            </View>
-                                            <View className="flex-1 flex-row sm:flex-none">
-                                                <Text className="font-bold text-primary">Servings: </Text><Text className="text-black">{ recipe.serving.totalServings }</Text>
-                                            </View> 
-                                        </View>
-                                        */}
                                         {/* Instructions */}
                                         <View>
                                             <Text className="uppercase text-2xl sm:text-xl font-bold text-primary py-5 text-center sm:text-left">Instructions</Text>

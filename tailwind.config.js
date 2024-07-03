@@ -12,9 +12,9 @@ module.exports = {
             },
             colors: {
                 primary: '#48652d',
-                background: '#e7f3dc',
+                background: '#E7F3DC',
                 header: '#C2E1A9',
-                footer: '#a98a5c',
+                footer: '#ECD1AD',
                 button: '#C2E1A9',
                 recipeCard: '#E1E4B2'
             },
