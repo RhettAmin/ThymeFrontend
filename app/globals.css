@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+ 
+  --color-ThymeDark: oklch(0.300 0.1818 145.91);         /*#1f2e0e - Primary brand color, headers, navigation */
+  --color-ThymePrimary: oklch(0.6044 0.1326 145.91);        /* #57A20C  */
+  --color-ThymeLight: oklch(0.8001 0.0818 145.91);        /* #57A20C  */
+  --color-ThymebackgroundGreen: oklch(0.9229 0.0587 124.66);         /* #aebfa6 */
+  --color-ThymebackgroundGreenAlt: oklch(0.8229 0.0987 124.66);         /* #aebfa6 */
+  --color-ThymebackgroundWhite: oklch(0.9625 0.0228 117.59);        /* #f1f5e4 - background */
+  --color-card: oklch(0.8001 0.0818 145.91);
+  
+  --color-ThymeRootBrown: oklch(0.5136 0.0658 45.26);             /* #875b*/
+  --color-ThymeRootPurple: oklch(0.7735 0.0863 330.35);           /* #7d5065 */
+  --color-ThymeRootOrange: oklch(0.75 0.1135 63.53);              /* #e09e5e */
+  --color-ThymeRootOrangeLighter: oklch(0.8059 0.111 63.53);              /* #f2b071 */
+  --color-ThymeRootOrangeDarker: oklch(0.7147 0.1233 63.53);            /* #d99149 */
+
+
+  --color-pridmardy: oklch(0.4571 0.0359 147.83);           /*#4A5D4C - Primary brand color, headers, navigation */
+  --color-cadrdd: oklch(0.7731 0.0526 49.28);               /* #d2ac98 - Background elements, cards */
+  --color-accdednt: oklch(0.6167 0.0446 130.62);            /* #7C8B6F - Accent elements, buttons, links */
+  --color-secodndaryAccdent: oklch(0.6869 0.0831 35.51);    /* #C88877 - Secondary accents, highlights */
+  --color-backdground: oklch(0.9625 0.0228 117.59);        /* #f1f5e4 - Main background */
+  --color-tedxdt: oklch(0.3269 0.0213 155.86);              /* #2C3830 - Primary text */
+  --color-thymddeGray: oklch(0.3843 0 229.76);         /* #434343 --color-thymeChive */
+  --color-thydmdeRoot: oklch(0.3906 0.0844 33.22);          /* #6b3226 */
+
+  /* Recipe Card Colours */
+  --color-thymeBorder: oklch(0.5103 0.0741 181.65);       /* #2b7469 */
+  --color-thymedCard: oklch(0.9129 0.0987 148.41);         /* ##b5f5be  */
+  --color-thymeButton: oklch(0.6613 0.1186 146.57);       /* #5EA666  */
+  --color-thymeHighlight: oklch(0.5324 0.1357 51.88);          /* #DE7840  */
+  --color-thymeButtonHover: oklch(0.6044 0.1326 145.91);  /* #45964E  */
+
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
