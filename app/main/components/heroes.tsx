@@ -1,10 +1,11 @@
 'use client'
-import { motion } from 'framer-motion'
-import { useState } from "react"
+import { motion, useAnimation } from 'framer-motion'
+import { useEffect, useRef, useState } from "react"
 import { Recipe } from "@/app/models/recipe"
 import Image from "next/image"
 import { Button } from '@/app/components/button'
 import Link from 'next/link'
+import { HourRoundingToString } from '@/app/utilities/utils'
 
 interface heroProps {
     heroRecipes: Recipe[]
@@ -14,12 +15,26 @@ const Heroes = ({ heroRecipes }: heroProps) => {
 
     const [isAnimationComplete, setIsAnimationComplete] = useState(false)
     const [spotlightIndex, setSpotlightIndex] = useState(0)
-
+    const [isPaused, setIsPaused] = useState(false)
+    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+    const wiggleControls = useAnimation()
     const positions = [
-        { x: 380, y: -220, scale: 1.3, opacity: 1 },    // Spotlight
-        { x: 200, y: 40, scale: 0.7, opacity: 0.7 },     // 2nd
-        { x: 550, y: 110, scale: 0.5, opacity: 0.5 },    // 3rd
+        { left: '75%', top: '75%', width: '42%', opacity: 1 },    // Spotlight
+        { left: '45%', top: '120%', width: '20%', opacity: 0.7 },  // 2nd
+        { left: '25%', top: '55%', width: '16%', opacity: 0.5 }, // 3rd
     ]
+
+    useEffect(() => {
+        if (isPaused || !heroRecipes || heroRecipes.length !== 3) return
+
+        timerRef.current = setInterval(() => {
+            setSpotlightIndex((prev) => (prev + 1) % heroRecipes.length)
+        }, 3000)
+
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current)
+        }
+    }, [isPaused, heroRecipes])
 
     const getSlotForIndex = (itemIndex: number, spotlightIndex: number) => {
         // Spotlight is always in slot 0 (top)
@@ -31,92 +46,158 @@ const Heroes = ({ heroRecipes }: heroProps) => {
     }
 
     return (
-            <div className="relative h-[600px] flex items-center justify-center">
+        <div className="relative w-full max-w-[960px] mx-auto flex justify-center items-center aspect-[16/10]">
+            <>
                 {
-                    heroRecipes && heroRecipes.length === 3 &&
-                        heroRecipes.map((item, index) => {
-                            const slot = getSlotForIndex(index, spotlightIndex)
-                            const position = positions[slot]
-                            const isSpotlight = slot === 0
-                            
-                            return (
-                                <motion.div
-                                    key={`hero-${index}`}
-                                    animate={{
-                                        x: position.x,
-                                        y: position.y,
-                                        scale: position.scale,
-                                        opacity: position.opacity,
-                                        width: isSpotlight ? '550px' : '150px'
-                                    }}
-                                    transition={{ 
-                                        x: { duration: 0.5, ease: "easeIn" },
-                                        y: { duration: 0.5, ease: "easeIn" },
-                                        opacity: { duration: 0.8, ease: "easeInOut" },
+                    heroRecipes && heroRecipes.length >= 3 &&
+                    heroRecipes.map((item, index) => {
+                        const slot = getSlotForIndex(index, spotlightIndex)
+                        const position = positions[slot]
+                        const isSpotlight = slot === 0
 
-                                        scale: { 
-                                            duration: 0.5, 
-                                            delay: slot === 0 ? 0.5 : 0,
-                                            ease: "easeInOut" 
-                                        },
-                                        width: { 
-                                            duration: 0.3, 
-                                            delay: isSpotlight ? 0.5 : 0,  // Width expands AFTER position changes
-                                            ease: "easeInOut" 
-                                        }
-                                    }}
-                                    onAnimationStart={ () => setIsAnimationComplete(false) }
-                                    onAnimationComplete={ () => {
-                                        setTimeout(() => setIsAnimationComplete(true), 1) 
-                                    }}
-                                    onClick={() => {
-                                        console.log(`Clicked item ${index}`)
-                                        setSpotlightIndex(index)
-                                    }}
-                                    className={`absolute cursor-pointer hover:opacity-100! flex flex-row items-center
-                                                ${ isSpotlight ? '' : ''} `} // 
-                                    style={{ zIndex: isSpotlight ? 10 : 5 }}
-                                >
-                                    <Image 
-                                        src={item.mainImage} 
-                                        alt={item.name}
-                                        width={200}
-                                        height={250}
-                                        className={` ${ isSpotlight ? 'rounded-l-lg shadow-lg' : 'rounded-lg'}`}
-                                    />
-                                
-                                    {
-                                        isSpotlight && isAnimationComplete && (
-                                            <motion.div
-                                                key={`text-${index}`}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                exit={{ opacity: 0, x: -20 }}
-                                                transition={{ 
-                                                    delay: 0.10,  
-                                                    duration: 0.3,
-                                                    ease: "anticipate"
-                                                }}
-                                                className="px-2 py-4 -ml-1 h-[200px] flex flex-col rounded-r-lg 
-                                                justify-center items-center text-center space-y-2 
-                                                border-t-1 border-r-1 border-b-1 bg-card"
-                                            >
-                                                <h3 className="text-lg font-bold">{item.name}</h3>
-                                                <p className="text-sm h-full text-thymeGray">{item.description}</p>
-                                                <div className="px-8 w-full">
-                                                    <Link href={`/recipe?recipeId=${ item.recipeId }`}>
-                                                        <Button message={"Make it!"}/>
-                                                    </Link>
-                                                </div>
-                                            </motion.div>
-                                        )
+                        return (
+                            <motion.div
+                                key={`hero-${index}`}
+                                animate={{
+                                    left: position.left,
+                                    top: position.top,
+                                    width: position.width,
+                                    opacity: position.opacity,
+                                }}
+                                transition={{
+                                    left: { duration: 0.5, ease: "easeInOut" },
+                                    top: { duration: 0.5, ease: "easeInOut" },
+                                    opacity: { duration: 0.8, ease: "easeInOut" },
+                                    width: {
+                                        duration: 0.1,
+                                        delay: isSpotlight ? 0.5 : 0,
+                                        ease: "easeInOut"
                                     }
-
-                                </motion.div>
-                            )
-                        })
+                                }}
+                                onAnimationStart={() => setIsAnimationComplete(false)}
+                                onAnimationComplete={() => {
+                                    setTimeout(() => setIsAnimationComplete(true), 1)
+                                }}
+                                onClick={() => setSpotlightIndex(index)}
+                                className="absolute cursor-pointer hover:opacity-100! flex flex-row items-center"
+                                style={{ x: '-50%', y: '-50%', zIndex: isSpotlight ? 10 : 5 }}
+                            >
+                                <div className={`relative w-full aspect-[4/4]  overflow-hidden `}>
+                                    <Image
+                                        src={item.mainImage}
+                                        alt={item.name}
+                                        fill
+                                        sizes="(max-width: 768px) 50vw, 420px"
+                                        className="object-cover rounded-full"
+                                    />
+                                </div>
+                            </motion.div>
+                        )
+                    })
                 }
+            </>
+
+            <motion.div 
+                key={spotlightIndex}
+                initial={{ x: "-20%", opacity: 0 }}
+                animate={{
+                    left: "125%",
+                    opacity: 1,
+                }}
+                transition={{
+                    left: { duration: 0.75, ease: "easeInOut" },
+                    opacity: { duration: 1.8, ease: "easeInOut" },
+                }}
+                className="absolute left-[110%] top-[30%] space-y-4"
+            >
+                <h6 className="font-bold text-md text-text-secondary uppercase">Freshly Cooked</h6>
+                <div className="space-y-8 w-[35vw]">
+                    <h3 className="font-bold text-6xl">{ heroRecipes[spotlightIndex].name }</h3>
+                    <p className="text-lg">{ heroRecipes[spotlightIndex].description }</p>
+                    <div className="flex flex-row space-x-4">
+                        { 
+                            heroRecipes[spotlightIndex].tags.map((tag, index) => (
+                                <p key={index} className="px-4 py-1 bg-brand-wash font-bold text-brand-dark rounded-full">{tag}</p>
+                            ))
+                        }
+                    </div>
+                    <div className="flex flex-row space-x-10 border-t-1 border-b-1 border-border-subtle py-6 px-4">
+                        <div className="text-center">
+                            <p className="text-text-muted text-sm uppercase">Time to Plate</p>
+                            <p className="font-bold text-lg">
+                                { HourRoundingToString(heroRecipes[spotlightIndex].totalTime) }
+                            </p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-text-muted text-sm uppercase">Serves</p>
+                            <p className="font-bold text-lg">{ heroRecipes[spotlightIndex].totalServings } </p>
+                        </div>
+                    </div>
+                    <button className="bg-accent-mid hover:bg-accent-light cursor-pointer hover:scale-105 rounded-lg shadow-md px-12 py-4 font-bold uppercase">
+                        Cook it
+                    </button>
+                </div>
+            </motion.div>
+
+            <div className="absolute top-[175%] flex flex-row space-x-4 z-1"
+            >
+                <motion.button 
+                    whileTap={{ scale: 0.9 }}
+                    className="rounded-full bg-accent-mid hover:bg-accent-light
+                    hover:z-10 hover:shadow-md px-4 py-2 cursor-pointer border-1"
+                    whileHover={{ scale: 1.1 }}
+                    onClick={() => {
+                        setSpotlightIndex(spotlightIndex <= 0 ? heroRecipes.length - 1 : spotlightIndex - 1)
+                    }}
+                >
+                    <i className="fa-solid fa-chevron-left"/>
+                </motion.button>
+                {/* {
+                    heroRecipes.map((_, index) => {
+                        const slot = getSlotForIndex(index, spotlightIndex)
+                        const isSpotlight = slot === 0
+                        
+                    return (
+                        <motion.button 
+                            key={index}
+                            whileTap={{ scale: 0.9 }} 
+                            whileHover={{ scale: 1.1 }}
+                            className={`flex items-center justify-center font-bold rounded-full 
+                                cursor-pointer self-stretch border-1 hover:bg-accent-light hover:z-10 
+                                hover:shadow-md
+                                ${isSpotlight ? 'bg-accent-mid w-10' : 'bg-accent-tint w-6'}`}
+                            onClick={() => setSpotlightIndex(index)}
+                        >
+                            {index}
+                        </motion.button>
+                    )})
+                } */}
+                <motion.button 
+                    whileTap={{ scale: 0.9 }} 
+                    whileHover={{ scale: 1.1 }}
+                    className="rounded-full bg-accent-mid hover:bg-accent-light
+                    hover:z-10 hover:shadow-md px-4 py-2 cursor-pointer border-1"
+                    onClick={() => setIsPaused(!isPaused)}
+                >
+                    {
+                        isPaused ?
+                        <i className="fa-solid fa-play w-[10px]"></i> :
+                        <i className="fa-solid fa-pause"></i>
+                    }
+                </motion.button>
+
+                <motion.button 
+                    whileTap={{ scale: 0.9 }} 
+                    whileHover={{ scale: 1.1 }}
+                    className="rounded-full bg-accent-mid hover:bg-accent-light
+                    hover:z-10 hover:shadow-md px-4 py-2 cursor-pointer border-1"
+                    onClick={() => setSpotlightIndex(spotlightIndex >= heroRecipes.length-1 ? 0 : spotlightIndex+1 )}
+                >
+                    <i className="fa-solid fa-chevron-right"></i>
+                </motion.button>
+                
             </div>
+        </div>
     )
 
 }   

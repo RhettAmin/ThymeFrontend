@@ -14,32 +14,22 @@ import AboutMe from "./components/about"
 
 const Main = () => {
 
-    // const [heroRecipe, setHeroRecipe] = useState<Recipe>(new Recipe());
-    const [recipes, setRecipes] = useState<Recipe[]>([new Recipe()]);
-    const [backendError, setBackendError] = useState<boolean>(false);
+    const [heroRecipe, setHeroRecipe] = useState<Recipe>(new Recipe());
+    const [recipes, setRecipes] = useState<Recipe[]>([new Recipe()])
+    const [backendError, setBackendError] = useState<boolean>(false)
+    const [focusedRecipe, setFocusRecipe] = useState<Recipe>(new Recipe)
 
     // Hero Logic
-    // const [heroDisplayOrder, setHeroDisplayOrder] = useState<number[]>([0,1,2])
+    const [heroDisplayOrder, setHeroDisplayOrder] = useState<number[]>([0,1,2])
 
     const router = useRouter()
 
-    // CALLBACKS ============================================================================
-    // const getRecipeImagesFromFirebase = useCallback( async (recipes: Recipe[]) => { 
-    //     for (let i = 0; i < recipes.length; i++) {
-    //         getRecipeImages(recipes[i]).then((response) => {
-    //             setRecipes((prevState) => {
-    //                 const newState = prevState
-    //                 newState[i] = response
-    //                 return newState
-    //             })
-    //             router.refresh()
-    //         })
-    //     }
-    // }, [router])
-
+    // API Calls
     const loadRecipes =  useCallback(async () => {
-        ThymeAPI.getRecipes(undefined, 7).then((response) => {
+        ThymeAPI.getRecipes(undefined, 4).then((response) => {
+            console.log("API DATA RECEIVED: ", response)
             setRecipes(response)  
+            setFocusRecipe(response[1])
             // getRecipeImagesFromFirebase(response)
         }).catch((error) => {
             console.error(error)
@@ -48,32 +38,24 @@ const Main = () => {
     }, [])
 
     useEffect(() => {
-        loadRecipes();
-    }, [loadRecipes]);
-
-    // const DisplayTags = (props: {tags: string[]}) => {
-    //     const tagList = []
-
-    //     for (let i = 0; i < props.tags.length; i++) {
-    //         tagList.push(
-    //             <li key={i} className="bg-secondaryAccent px-2 py-1 rounded-xl text-xs">
-    //                 { props.tags[i] }
-    //             </li>
-    //         )
-    //     }
-
-    //     return (
-    //         <ul className="flex flex-row gap-x-2">
-    //             { tagList }
-    //         </ul>
-    //     )
-    // }
+        loadRecipes()
+    }, [loadRecipes])
 
     return (
-        <div className="w-full h-full flex flex-col justify-center items-center space-y-4">
-            <Divider dividerText="Latest Recipes"/>
+        <div className="w-full h-full relative m-auto">
+            {/* Soup Pot */}
+            <div className="absolute left-[5vw] top-[10vh] w-[50vw] h-[50vw] rounded-full bg-steel shadow-mg flex items-center justify-center">
+                <div className="w-[45vw] h-[45vw] rounded-full bg-accent-mid shadow-sm">
+                    <Heroes heroRecipes={ recipes.slice(0,3) } />
+                </div>
+            </div>
+
+            {/* Info */}
+            
+
+            {/* <Divider dividerText="Latest Recipes"/>
             <div className="relative w-full h-[52rem]">
-                {/* Circle */}
+                {/* Circle 
                 <Image className="absolute inset-0 mx-auto flex justify-center -z-1 w-[55rem] h-[52rem]" 
                     src={ CircleImage } 
                     alt={ "" } 
@@ -83,7 +65,7 @@ const Main = () => {
                 </div>
             </div>
 
-            {/* Alll Recipes button */}
+            {/* Alll Recipes button
             <div className="w-1/4">
                 <Link href={` /recipes `}>
                     <Button message="All Recipes"/>
@@ -92,7 +74,7 @@ const Main = () => {
 
             <div className="mt-10">
                 <AboutMe />
-            </div>
+            </div> */}
         </div>
     )
 }

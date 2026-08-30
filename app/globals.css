@@ -3,40 +3,40 @@
 
 @theme {
  
-  --color-ThymeDark: oklch(0.300 0.1818 145.91);         /*#1f2e0e - Primary brand color, headers, navigation */
-  --color-ThymePrimary: oklch(0.6044 0.1326 145.91);        /* #57A20C  */
-  --color-ThymeLight: oklch(0.8001 0.0818 145.91);        /* #57A20C  */
-  --color-ThymebackgroundGreen: oklch(0.9229 0.0587 124.66);         /* #aebfa6 */
-  --color-ThymebackgroundGreenAlt: oklch(0.8229 0.0987 124.66);         /* #aebfa6 */
-  --color-ThymebackgroundWhite: oklch(0.9625 0.0228 117.59);        /* #f1f5e4 - background */
-  --color-card: oklch(0.8001 0.0818 145.91);
+  --color-brand-dark:       oklch(0.22  0.1818 145.91); /* logo, footer bg */
+  --color-brand-deep:       oklch(0.30  0.1818 145.91); /* nav bar, h1/h2 */
+  --color-brand:            oklch(0.60  0.1326 145.91); /* primary buttons, links */
+  --color-brand-soft:       oklch(0.80  0.0818 145.91); /* card header fills, chips */
+  --color-brand-wash:       oklch(0.92  0.0387 145.91); /* hero tints, hover rows */
+  --color-steel:            oklch(0.3 0.0049 229.43);
+
+  /* Surface */
+  --color-surface-page:     oklch(0.96  0.0228 117.59); /* main page background */
+  --color-surface-raised:   oklch(0.92  0.0587 124.66); /* recipe cards, panels */
+  --color-surface-sunken:   oklch(0.87  0.0687 124.66); /* input backgrounds */
+  --color-surface-border:   oklch(0.82  0.0987 124.66); /* card borders, dividers */
+
+  /* Accent — harvest orange */
+  --color-accent-tint:      oklch(0.95  0.06   63.53);  /* accent chip bg */
+  --color-accent-light:     oklch(0.81  0.111  63.53);  /* star fill, hover */
+  --color-accent-mid:       oklch(0.75  0.1435 63.53);  /* CTA buttons, badges */
+  --color-accent-strong:    oklch(0.53  0.1357 51.88);  /* highlight text, active */
+  --color-book-brown:       oklch(0.51  0.0658  45.26); /* cuisine type */
+
+  /* Typography */
+  --color-text-primary:     oklch(0.18  0.022  145.91);
+  --color-text-secondary:   oklch(0.38  0.028  145.91);
+  --color-text-muted:       oklch(0.58  0.022  145.91);
+  --color-border-subtle:    oklch(0.75  0.018  145.91);
+  --color-border-hairline:  oklch(0.86  0.012  145.91);
+
+  /* Category tags */
   
-  --color-ThymeRootBrown: oklch(0.5136 0.0658 45.26);             /* #875b*/
-  --color-ThymeRootPurple: oklch(0.7735 0.0863 330.35);           /* #7d5065 */
-  --color-ThymeRootOrange: oklch(0.75 0.1135 63.53);              /* #e09e5e */
-  --color-ThymeRootOrangeLighter: oklch(0.8059 0.111 63.53);              /* #f2b071 */
-  --color-ThymeRootOrangeDarker: oklch(0.7147 0.1233 63.53);            /* #d99149 */
+  --color-tag-mauve:        oklch(0.77  0.0863 330.35); /* diet labels */
+  --color-tag-teal:         oklch(0.51  0.0741 181.65); /* course / meal type */
+  --color-tag-herb:         oklch(0.66  0.1186 146.57); /* seasonal / fresh */
+
+} 
 
 
-  --color-pridmardy: oklch(0.4571 0.0359 147.83);           /*#4A5D4C - Primary brand color, headers, navigation */
-  --color-cadrdd: oklch(0.7731 0.0526 49.28);               /* #d2ac98 - Background elements, cards */
-  --color-accdednt: oklch(0.6167 0.0446 130.62);            /* #7C8B6F - Accent elements, buttons, links */
-  --color-secodndaryAccdent: oklch(0.6869 0.0831 35.51);    /* #C88877 - Secondary accents, highlights */
-  --color-backdground: oklch(0.9625 0.0228 117.59);        /* #f1f5e4 - Main background */
-  --color-tedxdt: oklch(0.3269 0.0213 155.86);              /* #2C3830 - Primary text */
-  --color-thymddeGray: oklch(0.3843 0 229.76);         /* #434343 --color-thymeChive */
-  --color-thydmdeRoot: oklch(0.3906 0.0844 33.22);          /* #6b3226 */
 
-  /* Recipe Card Colours */
-  --color-thymeBorder: oklch(0.5103 0.0741 181.65);       /* #2b7469 */
-  --color-thymedCard: oklch(0.9129 0.0987 148.41);         /* ##b5f5be  */
-  --color-thymeButton: oklch(0.6613 0.1186 146.57);       /* #5EA666  */
-  --color-thymeHighlight: oklch(0.5324 0.1357 51.88);          /* #DE7840  */
-  --color-thymeButtonHover: oklch(0.6044 0.1326 145.91);  /* #45964E  */
-
-}
-
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}

@@ -22,60 +22,63 @@ export const RecipeCard = ({ recipeId, recipeName, mainImageLink, tags, descript
 
     const convertTime = (time: number): string => {
         if (time > 60) {
-            return `${time / 60} hours`
+            return `${Math.round(time / 60)} hrs`
         } else if (time === 60) {
-            return `${time / 60} hour`
+            return `${time / 60} hr`
         } else {
-            return `${time} minutes`
+            return `${time} mins`
         }
     }
 
     return (
-        <div className="relative w-[25rem] min-h-[33rem] flex flex-col col-span-1 group bg-card rounded-lg shadow-md border-2 p-3 flex flex-col">
-            <div className="h-[35rem] border-2 border-ThymePrimary h-full bg-background rounded-lg">
+        <div className="relative w-full h-full min-h-0 flex flex-col group bg-black rounded-lg shadow-md border-2 p-3">
+            <div className="flex flex-col flex-1 min-h-0 bg-brand-soft rounded-lg">
                
                 {/* Name */}
-                <div className="border-2 border-ThymePrimary bg-ThymePrimary h-8 -mx-2 -mt-2 px-2 rounded-[0.65vw]">
-                        <p className={`font-bold justify-center text-center ${ getFontSize(recipeName) }`}>{ recipeName }</p>
+                <div className="shrink-0 flex flex-row justify-between border-4 border-brand mx-1 mt-2 px-2 py-1 rounded-2xl bg-surface-sunken">
+                    <p className={`font-bold justify-center text-center ${ getFontSize(recipeName) }`}>{ recipeName }</p>
+                    <div className="flex flex-row justify-between gap-x-1">
+                        {/* badges */}
+                        <div className="rounded-full bg-brand px-1.5">
+                            V
+                        </div>
+                        <p>{ convertTime(timeToPlate) }</p>
+                    </div>
                 </div>
 
                 {/* Image placeholder */}
-                <div className="bg-red-200 h-60 flex items-center justify-center">
+                <div className="relative flex-[2] min-h-0 border-4 border-brand -mt-1 mx-2 bg-red-200">
                     <Link className="w-full h-full" href={`/recipe?recipeId=${recipeId}`}>
                     {
                         mainImageLink ?
-                        <Image className="w-full h-full object-fill" src={ mainImageLink } 
-                            width={500} height={500} alt={ "Image of the Recipe, plated nicely" } 
-                            loading="eager"
-                        /> :
+                        <Image className="object-cover" src={mainImageLink} fill sizes="(max-width: 1080) 20vw, 500px" alt="..." /> :
                         <p className="w-full h-full bg-red-200 flex items-center justify-center">Image</p>
                     }
                     </Link>
                 </div>
 
-                <div className="min-h-full flex flex-col flex-1 pt-2">
-                    <div className="border-2 border-thymeButton -mx-2 -mt-2 px-2 rounded-[0.65vw] hover:border-thymeButtonHover">
-                        <div className="bg-gradient-to-r from-thymeButton to-thymeButton hover:from-thymeButtonHover hover:to-thymeButton transition-all duration-250 -mx-2 px-2 text-center  hover:text-white rounded-md">
+                <div className="flex flex-col flex-[3] min-h-0 px-2">
+                    <div className="border-4 border-brand -mx-1 -mt-3 px-2 py-1 rounded-2xl bg-surface-sunken">
+                        {/* <div className="bg-gradient-to-r from-thymeButton to-thymeButton hover:from-thymeButtonHover hover:to-thymeButton transition-all duration-250 -mx-2 px-2 text-center  hover:text-white rounded-md">
                             <Link href={`/recipe?recipeId=${recipeId}`}>
                                 <p className="font-bold">Cook it!</p>
                             </Link>
-                        </div>
-                    </div>
-                    <div className="min-h-[12.5rem] flex flex-col flex-1 space-y-2 px-2 bg-ThymebackgroundGreen rounded-b-lg">
-                        <div className="border-b-1 pb-1 border-black">
+                        </div> */}
+                         <div className="bg-surface-sunken px-2">
                             <p>{ tags.join(", ") }</p>
                         </div>
-                        
-                        <div className="">
-                            <p className="rounded-lg">{ description }</p>
+                    </div>
+                    <div className="flex flex-col flex-1 space-y-2 px-1 -mt-1 rounded-b-lg">
+                        <div className="flex flex-col flex-1 min-h-0 space-y-2 py-3 px-4 border-4 border-brand bg-surface-page">
+                            <div className="bg-accent-mid hover:bg-accent-light transition-all duration-150 text-center rounded-md">
+                                <Link href={`/recipe?recipeId=${recipeId}`}>
+                                    <p className="font-bold">Cook it!</p>
+                                </Link>
+                            </div>
+                            <p className="rounded-lg text-[0.90rem] overflow-hidden">{ description }</p>
                         </div>
 
-                        <div className="absolute right-1 bottom-1 border-2 border-ThymeRootPurple px-2 
-                            bg-ThymeRootPurple rounded-lg shadow-md">
-                            <div className=" flex flex-row justify-between">
-                                <p>{ convertTime(timeToPlate) }</p>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

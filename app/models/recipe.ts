@@ -2,9 +2,13 @@ class Recipe {
     recipeId: string = ''
     name: string = ''
     description: string = ''
-    serving: Serving = new Serving()
+    totalServings: number = 1
+    servingSize: number = 1
+    servingForm: string = ''
     tags: string[] = []
-    timeToPlate: number = 0
+    totalTime: number = 0
+    prepTime: number = 0
+    cookTime: number = 0
     heroImage: string = ""
     mainImage: string = ""
     images: string = ''
@@ -14,12 +18,6 @@ class Recipe {
     instructionSection: InstructionSection[] = []
     nutritionFacts: NutritionFacts = new NutritionFacts()
     ingredientTotals: string[] = []
-}
-
-class Serving {
-    totalServings: number = 1
-    servingSize: number = 1
-    amount: string = ''
 }
 
 class IngredientSection {
@@ -70,11 +68,6 @@ class ImageRef {
 
 class MainImageRef extends ImageRef {}
 
-// class InstructionImageRef extends ImageRef {
-//     instructionSection: string = ""
-//     index = 0
-// }
-
-export { Recipe, Serving, IngredientSection, 
+export { Recipe, IngredientSection, 
         Ingredient, InstructionSection, NutritionFacts, 
         MainImageRef }

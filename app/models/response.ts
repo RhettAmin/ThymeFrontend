@@ -2,7 +2,7 @@ import { RecipeDTO } from './recipeDTO';
 
 class Response {
     message: string = "";
-    recipe_list: RecipeDTO[] = [];
+    recipes: RecipeDTO[] = [];
     status_code: string = "";
 }
 

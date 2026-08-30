@@ -29,30 +29,21 @@ const Header = () => {
     return (
         <motion.header
             className={`
-                fixed top-0 left-0 right-0 z-50
-                transition-all duration-300 bg-ThymePrimary rounded-b-3xl px-24
-                ${ hasScrolled ? 
-                    'h-12' :
-                    'shadow-md h-18'
-                }
+                fixed top-5 left-0 right-0 z-50
+                transition-all duration-300 px-24
             `}
         >
             
             <nav className="flex flex-row justify-between">
                 {/* Brand */}
                 <motion.div
-                    className={`font-bold transition-all duration-300
-                        ${ hasScrolled ? 
-                            'pt-1.5 text-3xl' :
-                            'pt-3 text-5xl'
-                        }
-                    `}
+                    className={`font-bold transition-all duration-300 pt-3 text-4xl`}
                 >
                     <Link href={views[0].path}
                         className=" text-accent font-bold cursor-pointer hover:text-background" 
                         onClick={() => setActiveViewInController(0)}
                     >
-                        THYME TO DINE
+                        Thyme to Dine
 
                     </Link>
                 </motion.div>

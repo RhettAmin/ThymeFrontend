@@ -2,11 +2,15 @@ class RecipeDTO {
     recipe_id: string = ""
     name: string = ""
     description: string = ""
-    serving: ServingDTO = new ServingDTO
+    total_servings: number = 0
+    serving_size: number = 0
+    serving_form: string = ""
     hero_image_link: string = ""
     main_image_link: string = ""
     tags: string[] = []
-    time_to_plate: number = 0
+    total_time: number = 0
+    prep_time: number = 0
+    cook_time: number = 0
     images: string = ""
     created_date: string = ""
     updated_date: string = ""
@@ -14,16 +18,6 @@ class RecipeDTO {
     instruction_section: InstructionSectionDTO[] = []
     nutrition_facts: NutritionFactsDTO = new NutritionFactsDTO
     ingredient_totals: string[] = []
-}
-
-// class Metadata {
-//     main_image_alt_text: string = ''
-// }
-
-class ServingDTO {
-    total_servings: number = 0
-    serving_size: number = 0
-    amount: string = ""
 }
 
 class IngredientSectionDTO {
@@ -66,4 +60,4 @@ class NutritionFactsDTO {
     calcium: number = 0
 }
 
-export { RecipeDTO, ServingDTO, IngredientSectionDTO, IngredientDTO, InstructionSectionDTO, NutritionFactsDTO }
+export { RecipeDTO, IngredientSectionDTO, IngredientDTO, InstructionSectionDTO, NutritionFactsDTO }
