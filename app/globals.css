@@ -11,7 +11,7 @@
   --color-steel:            oklch(0.3 0.0049 229.43);
 
   /* Surface */
-  --color-surface-page:     oklch(0.96  0.0228 117.59); /* main page background */
+  --color-page:             oklch(0.96  0.0228 117.59); /* main page background */
   --color-surface-raised:   oklch(0.92  0.0587 124.66); /* recipe cards, panels */
   --color-surface-sunken:   oklch(0.87  0.0687 124.66); /* input backgrounds */
   --color-surface-border:   oklch(0.82  0.0987 124.66); /* card borders, dividers */
@@ -39,4 +39,54 @@
 } 
 
 
+html { scrollbar-gutter: stable; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
+/* Ingredient rail scrollbar: just a green handle, no track background.
+   Hovering the rail reveals a tinted track; dragging the handle darkens it.
+   Chromium now supports the standardized scrollbar-width/scrollbar-color
+   properties and, once they're set, ignores the whole ::-webkit-scrollbar-*
+   family - including scrollbar-button{display:none} below - falling back to
+   its native scrollbar (arrow buttons and all). So the standardized
+   properties are scoped to browsers that don't support ::-webkit-scrollbar
+   at all (Firefox); browsers that do get the fully custom styling instead. */
+@supports not selector(::-webkit-scrollbar) {
+  .ingredient-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-brand) transparent;
+  }
+}
+
+.ingredient-scrollbar::-webkit-scrollbar {
+  width: 15px;
+}
+
+.ingredient-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+.ingredient-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+  transition: background-color 0.25s ease;
+}
+
+.ingredient-scrollbar:hover::-webkit-scrollbar-track {
+  background-color: var(--color-brand-soft);
+  border-radius: 9999px;
+}
+
+.ingredient-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-brand);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.ingredient-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-brand-deep);
+}
+
+.ingredient-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-brand-dark);
+}

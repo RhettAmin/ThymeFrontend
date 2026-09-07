@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react"
 import ThymeAPI from "@/app/api/thyme/thymeAPI"
 import { Recipe } from "@/app/models/recipe"
-import RecipeListDisplay, { BookHandle, PAGE_SIZE } from './components/RecipeListDisplay'
+import RecipeBookDisplay, { BookHandle, PAGE_SIZE } from './components/RecipeListDisplay'
 import { PageControl } from "./components/pageControls"
+import { count } from "console"
 
-
+const recipeTypes = [  "Dessert", "Omnivore", "Pescatarian", "Vegan", "Vegetarian" ]
 
 const Recipes = () => {
     const [allRecipes, setAllRecipes] = useState<Recipe[]>([])
@@ -35,8 +36,27 @@ const Recipes = () => {
 
     return (
         <div className="w-full h-full my-4 pb-4">
-            <div className="flex flex-col space-y-8 w-full h-full items-center px-20">
-                <RecipeListDisplay 
+            <div className="flex flex-col space-y-4 w-full h-full items-center px-20">
+                <p className="text-4xl font-bold text-brand-deep">
+                    The Recipe Book
+                </p>
+                {/* Badge Legend */}
+                <div className="flex flex-row gap-x-4">
+                    {
+                        recipeTypes.map((type, index) => (
+                            <div key={index} className="flex flex-row gap-x-1">
+                                <div className="rounded-full bg-brand px-1.5">
+                                    { type.toUpperCase().charAt(0)}
+                                </div>
+                                <p>
+                                    { type }
+                                </p>
+                            </div>
+                        ))
+                    }
+                </div>
+                {/* Recipe Book Display */}
+                <RecipeBookDisplay 
                     ref={bookRef} 
                     recipes={allRecipes} 
                     currentIndex={currentIndex} 

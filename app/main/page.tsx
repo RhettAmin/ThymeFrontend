@@ -7,6 +7,7 @@ import { Recipe } from "../models/recipe"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import Heroes from "./components/heroes"
+import HeroesMobile from "./components/heroesMobile"
 import CircleImage from "@/public/static/Circle_soup.webp"
 import { Button } from "../components/button"
 import Link from "next/link"
@@ -42,12 +43,15 @@ const Main = () => {
     }, [loadRecipes])
 
     return (
-        <div className="w-full h-full relative m-auto">
-            {/* Soup Pot */}
-            <div className="absolute left-[5vw] top-[10vh] w-[50vw] h-[50vw] rounded-full bg-steel shadow-mg flex items-center justify-center">
-                <div className="w-[45vw] h-[45vw] rounded-full bg-accent-mid shadow-sm">
-                    <Heroes heroRecipes={ recipes.slice(0,3) } />
-                </div>
+        <div className="w-full h-full">
+            {/* Mobile: Stacked layout */}
+            <div className="lg:hidden md:py-8">
+                <HeroesMobile heroRecipes={ recipes.slice(0,3) } />
+            </div>
+
+            {/* Desktop: Soup Pot */}
+            <div className="hidden lg:block ">
+                <Heroes heroRecipes={ recipes.slice(0,3) } />
             </div>
 
             {/* Info */}

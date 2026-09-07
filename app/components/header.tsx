@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 
 const Header = () => {
 
-    const [hasScrolled, setHasScrolled] = useState<boolean>(false)
+    
 
     const dispatch = useAppDispatch()
     const views = useAppSelector(state => state.ViewController.views)
@@ -16,28 +16,28 @@ const Header = () => {
         dispatch(setActiveView(value))
     }
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setHasScrolled(window.scrollY > 20)
-            console.log("scroll: ", window.scrollY > 20)
-        }
+    // Used to shift the header
+    // const [hasScrolled, setHasScrolled] = useState<boolean>(false)
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         setHasScrolled(window.scrollY > 20)
+    //     }
 
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    //     window.addEventListener('scroll', handleScroll)
+    //     return () => window.removeEventListener('scroll', handleScroll)
+    // }, [])
 
     return (
         <motion.header
             className={`
-                fixed top-5 left-0 right-0 z-50
-                transition-all duration-300 px-24
+                fixed w-full top-0 z-50 pointer-events-none
+                transition-all duration-300
             `}
         >
-            
-            <nav className="flex flex-row justify-between">
+
+            <nav className="w-full max-w-[1600] mx-auto flex flex-row justify-between py-4 bg-page pointer-events-auto">
                 {/* Brand */}
-                <motion.div
-                    className={`font-bold transition-all duration-300 pt-3 text-4xl`}
+                <div className={`w-fullfont-bold pt-3 text-4xl`}
                 >
                     <Link href={views[0].path}
                         className=" text-accent font-bold cursor-pointer hover:text-background" 
@@ -46,15 +46,10 @@ const Header = () => {
                         Thyme to Dine
 
                     </Link>
-                </motion.div>
+                </div>
 
                 {/* Routes */}
-                <div className={`font-bold transition-all duration-300
-                        ${ hasScrolled ? 
-                            'pt-2.5' :
-                            'pt-6'
-                        }
-                    `}>
+                <div className={`font-bold pt-6`}>
                     <ul className="flex flex-row space-x-4 text-accent font-bold justify-center text-xl">
                         <Link href={views[1].path} className="cursor-pointer hover:text-thymeChive" onClick={() => setActiveViewInController(1)}>All Recipes</Link>
                         <Link href={views[2].path} className="cursor-pointer hover:text-thymeChive" onClick={() => setActiveViewInController(2)}>About</Link>

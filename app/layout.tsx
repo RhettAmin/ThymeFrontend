@@ -7,6 +7,7 @@ import Header from "./components/header"
 import Footer from "./components/footer"
 import ScrollToTopButton from "./components/scrollTopButton"
 import { Lora } from 'next/font/google'
+import { usePathname } from 'next/navigation'
 
 const lora = Lora({
   subsets: ['latin'],
@@ -17,6 +18,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname()
+  const needsFlexibleHeight = pathname === '/recipe' || pathname === '/main'
+
   return (
     <Provider store={Store}>
       <html lang="en" className={lora.className}>
@@ -28,13 +32,13 @@ export default function RootLayout({
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         </head>
 
-        <body className="bg-surface-page w-full h-screen antialiased">
+        <body className="bg-page w-full h-screen pt-16 antialiased">
           <Header/>
-          <div className="mt-16 py-8 h-full">
+          <div className={`py-8 ${needsFlexibleHeight ? 'min-h-full' : 'h-full'}`}>
             { children }
           </div>
           <ScrollToTopButton />
-          {/* <Footer/> */}
+          <Footer/>
         </body>
 
       </html>

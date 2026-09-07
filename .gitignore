@@ -43,3 +43,5 @@ next-env.d.ts
 app/api/config
 Dockerfile
 package-lock.json
+
+.claude

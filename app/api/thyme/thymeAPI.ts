@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ThymeConfig } from "./thymeConfig";
-import { Ingredient, IngredientSection, InstructionSection, Recipe } from "@/app/models/recipe";
+import { Ingredient, IngredientSection, InstructionSection, Note, Recipe } from "@/app/models/recipe";
 import { RecipeDTO } from "@/app/models/recipeDTO";
 import { Response } from "@/app/models/response";
 
@@ -138,8 +138,110 @@ async function convertRecipeDTOToRecipe(recipeDTO: RecipeDTO) {
     })
 }
 
+/**
+ * getRecipe
+ * Fetches a SINGLE recipe with its full detail. The list endpoint (`getRecipes`)
+ * returns summaries only — no ingredient sections, instruction sections or notes.
+ */
+async function getRecipe(id: string): Promise<Recipe> {
+    const response = await thymeAxios.get(`${ThymeConfig.recipesEndpoint}/${id}`)
+    return convertDetailToRecipe(response.data?.data)
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const bySortOrder = (a: any, b: any) => (a?.sort_order ?? 0) - (b?.sort_order ?? 0)
+
+function convertDetailToRecipe(d: any): Recipe {
+    const recipe = new Recipe()
+    if (!d) return recipe
+
+    recipe.recipeId      = d.recipe_id
+    recipe.name          = d.name ?? ''
+    recipe.description   = d.description ?? ''
+    recipe.isActive      = d.is_active ?? true
+
+    recipe.heroImage     = d.hero_image_link ?? ''
+    recipe.mainImage     = d.main_image_link ?? ''
+
+    recipe.servingForm   = d.serving_form ?? ''
+    recipe.servingSize   = d.serving_size ?? 1
+    recipe.totalServings = d.total_servings ?? 1
+
+    recipe.tags          = d.tags ?? []
+    recipe.totalTime     = d.total_time ?? 0
+    recipe.prepTime      = d.prep_time ?? 0
+    recipe.cookTime      = d.cook_time ?? 0
+    recipe.createdDate   = d.created_date ?? ''
+    recipe.updatedDate   = d.updated_date ?? ''
+
+    // Nutrition is FLAT on the detail payload, not nested under nutrition_facts
+    const n = recipe.nutritionFacts
+    n.calories     = d.calories     ?? 0
+    n.fat          = d.fat          ?? 0
+    n.saturatedFat = d.saturated_fat?? 0
+    n.transFat     = d.trans_fat    ?? 0
+    n.carbohydrate = d.carbohydrate ?? 0
+    n.fibre        = d.fibre        ?? 0
+    n.sugars       = d.sugars       ?? 0
+    n.protein      = d.protein      ?? 0
+    n.cholesterol  = d.cholesterol  ?? 0
+    n.sodium       = d.sodium       ?? 0
+    n.vitaminD     = d.vitamin_d    ?? 0
+    n.iron         = d.iron         ?? 0
+    n.potassium    = d.potassium    ?? 0
+    n.calcium      = d.calcium      ?? 0
+
+    // Note the PLURAL keys — these differ from the list endpoint's DTO
+    recipe.ingredientSection = [...(d.ingredient_sections ?? [])]
+        .sort(bySortOrder)
+        .map((section: any) => {
+            const iSection = new IngredientSection()
+            iSection.sectionName = section.section_name ?? ''
+            iSection.ingredients = [...(section.ingredients ?? [])]
+                .sort(bySortOrder)
+                .map((ing: any) => {
+                    console.log("ingredient: ", ing)
+                    const ingredient = new Ingredient()
+                    ingredient.name             = ing.name ?? ''
+                    ingredient.quantity         = ing.quantity ?? 0
+                    ingredient.measurement      = ing.measurement ?? ''
+                    ingredient.type             = ing.type ?? 0
+                    ingredient.conversionType   = ing.conversion_type ?? 'OTHER'
+                    ingredient.gramWeight       = ing.gram_weight ?? 0
+                    return ingredient
+                })
+            return iSection
+        })
+
+    recipe.instructionSection = [...(d.instruction_sections ?? [])]
+        .sort(bySortOrder)
+        .map((section: any) => {
+            const iSection = new InstructionSection()
+            iSection.sectionName      = section.section_name ?? ''
+            iSection.image            = section.image_link ?? ''
+            iSection.metadata.altText = section.alt_text ?? ''
+            // steps arrive as objects, not strings
+            iSection.steps = [...(section.steps ?? [])]
+                .sort(bySortOrder)
+                .map((step: any) => step.step_text ?? '')
+            return iSection
+        })
+
+    recipe.notes = (d.notes ?? []).map((note: any) => {
+        const n = new Note()
+        n.id          = note.id ?? 0
+        n.content     = note.content ?? ''
+        n.placement   = note.placement ?? ''
+        n.displayName = note.display_name ?? ''
+        return n
+    })
+
+    return recipe
+}
+
 const ThymeAPI = {
-    getRecipes
+    getRecipes,
+    getRecipe
 }
 
 export default ThymeAPI;

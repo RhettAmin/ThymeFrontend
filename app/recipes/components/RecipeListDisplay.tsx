@@ -5,7 +5,7 @@ import { motion, useMotionValue, useTransform, useVelocity, animate } from "moti
 import { Recipe } from "@/app/models/recipe"
 import { RecipeCard } from "./recipeCard"
 
-export const PER_SIDE = 4
+export const PER_SIDE = 2
 export const PAGE_SIZE = PER_SIDE * 2
 export type BookHandle = { flip: (dir: 1 | -1) => void }
 
@@ -23,7 +23,7 @@ const spreadAt = (recipes: Recipe[], index: number) => {
     }
 }
 
-const RecipeListDisplay = ({ recipes, currentIndex, onCommit, ref }: Props) => {
+const RecipeBookDisplay = ({ recipes, currentIndex, onCommit, ref }: Props) => {
 
     const [flipDir, setFlipDir] = useState<1 | -1 | null>(null)
     useImperativeHandle(ref, () => ({ flip: startFlip }))
@@ -51,8 +51,6 @@ const RecipeListDisplay = ({ recipes, currentIndex, onCommit, ref }: Props) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
     const dragRef = useRef<{ dir: 1 | -1; startX: number; startY: number; startRot: number } | null>(null)
-
-    
     const rotVelocity = useVelocity(rotateY)   // for flick detection
 
     // a slight bend that swells mid-turn and settles flat
@@ -158,9 +156,9 @@ const RecipeListDisplay = ({ recipes, currentIndex, onCommit, ref }: Props) => {
 
     return (
         <div
-            className="relative w-full h-full bg-brand overflow-hidden"
-            style={{ perspective: 2000 }}
-            ref={containerRef}
+            className="relative w-full h-full bg-brand rounded-lg"
+            // style={{ perspective: 2000 }}
+            // ref={containerRef}
         >
             {/* static left half */}
             <div className="absolute inset-y-0 left-0 w-1/2 bg-brand"
@@ -238,4 +236,4 @@ const RecipeListDisplay = ({ recipes, currentIndex, onCommit, ref }: Props) => {
     )
 }
 
-export default RecipeListDisplay
+export default RecipeBookDisplay

@@ -18,6 +18,15 @@ class Recipe {
     instructionSection: InstructionSection[] = []
     nutritionFacts: NutritionFacts = new NutritionFacts()
     ingredientTotals: string[] = []
+    notes: Note[] = []
+    isActive: boolean = true
+}
+
+class Note {
+    id: number = 0
+    content: string = ''
+    placement: string = ''
+    displayName: string = ''
 }
 
 class IngredientSection {
@@ -29,6 +38,8 @@ class Ingredient {
     name: string = ''
     quantity: number = 0
     measurement: string = ''
+    conversionType: string = ''
+    gramWeight:  number = 0
     type: number = 0
 }
 
@@ -70,4 +81,4 @@ class MainImageRef extends ImageRef {}
 
 export { Recipe, IngredientSection, 
         Ingredient, InstructionSection, NutritionFacts, 
-        MainImageRef }
+        MainImageRef, Note }
